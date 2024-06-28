@@ -20,8 +20,19 @@ final class FileCacheTests: XCTestCase {
         }
     }
 
+    private let fileCache = FileCache.shared
+
+    override class func setUp() {
+        super.setUp()
+        FileCache.shared.removeAllItems()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        fileCache.removeAllItems()
+    }
+
     func testAddItemAndRemove() {
-        let fileCache = FileCache()
         for item in [Constants.item1, Constants.item2] {
             fileCache.addItem(item)
         }
@@ -36,7 +47,6 @@ final class FileCacheTests: XCTestCase {
     }
 
     func testAddExistedItem() {
-        let fileCache = FileCache()
         fileCache.addItem(Constants.item1)
         XCTAssertEqual(fileCache.items.count, 1)
         XCTAssertEqual(fileCache.items[Constants.item1.id], Constants.item1)
@@ -46,7 +56,6 @@ final class FileCacheTests: XCTestCase {
     }
 
     func testSaveAndLoadJson() {
-        let fileCache = FileCache()
         for item in [Constants.item1, Constants.item2] {
             fileCache.addItem(item)
         }
@@ -73,7 +82,6 @@ final class FileCacheTests: XCTestCase {
     }
 
     func testSaveAndLoadCSV() {
-        let fileCache = FileCache()
         for item in [Constants.item1, Constants.item2] {
             fileCache.addItem(item)
         }

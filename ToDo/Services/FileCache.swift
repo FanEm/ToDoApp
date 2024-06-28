@@ -5,24 +5,41 @@
 //  Created by Artem Novikov on 15.06.2024.
 //
 
-import Foundation
+import SwiftUI
 
 // MARK: - FileCache
-final class FileCache {
+final class FileCache: ObservableObject {
+
+    static let shared: FileCache = FileCache()
 
     private let fileManager: FileManager
 
-    private(set) var items: [String: TodoItem] = [:]
+    private enum Constants {
+        static let defaultJsonFileName = "items.json"
+    }
 
-    init(fileManager: FileManager = FileManager.default) {
+    @Published private(set) var items: [String: TodoItem] = [:]
+
+    private init(fileManager: FileManager = FileManager.default) {
         self.fileManager = fileManager
+    }
+
+    func addItemAndSaveJson(_ item: TodoItem) {
+        addItem(item)
+        try? saveJson()
+    }
+
+    func removeItemAndSaveJson(id: String) {
+        removeItem(id: id)
+        try? saveJson()
     }
 
     func addItem(_ item: TodoItem) {
         items[item.id] = item
     }
 
-    func removeItem(id: String) {
+    @discardableResult
+    func removeItem(id: String) -> TodoItem? {
         items.removeValue(forKey: id)
     }
 
@@ -41,13 +58,13 @@ final class FileCache {
 // MARK: - JSON serialization
 extension FileCache {
 
-    func saveJson(to file: String) throws {
+    func saveJson(to file: String = Constants.defaultJsonFileName) throws {
         let jsonArray = items.values.map { $0.json }
         let jsonData = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
         try jsonData.write(to: filePath(file))
     }
 
-    func loadJson(from file: String) throws {
+    func loadJson(from file: String = Constants.defaultJsonFileName) throws {
         let data = try Data(contentsOf: filePath(file))
         let json = try JSONSerialization.jsonObject(with: data)
         guard let json = json as? [Any] else {
