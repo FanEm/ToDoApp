@@ -6,28 +6,35 @@
 //
 
 import SwiftUI
+import Combine
 
 // MARK: - TodoViewModel
 final class TodoViewModel: ObservableObject {
 
     @Published var text: String
     @Published var priority: TodoItem.Priority
+    @Published var category: Category? {
+        didSet {
+            color = getColorFromCategory()
+        }
+    }
     @Published var deadline: Date?
     @Published var modifiedAt: Date?
-    @Published var color: Color
+    @Published var color: Color?
 
     @Published var isAlertShown = false
     @Published var isColorPickerShown = false
-    
+    @Published var isCategoryViewShown = false
+
     @Published var selectedDeadline: Date = .nextDay {
         didSet {
-            deadline = isDeadlineEnabled ? selectedDeadline : nil
+            deadline = isDeadlineEnabled ? selectedDeadline.stripTime() : nil
         }
     }
     @Published var isDeadlineEnabled: Bool {
         didSet {
             selectedDeadline = isDeadlineEnabled ? (todoItem.deadline ?? .nextDay) : .nextDay
-            deadline = isDeadlineEnabled ? selectedDeadline : nil
+            deadline = isDeadlineEnabled ? selectedDeadline.stripTime() : nil
         }
     }
 
@@ -37,43 +44,62 @@ final class TodoViewModel: ObservableObject {
             text != todoItem.text ||
             priority != todoItem.priority ||
             deadline != todoItem.deadline ||
-            color.hex! != todoItem.color
+            category?.id != todoItem.categoryId
         )
     }
 
     var isItemNew: Bool {
-        fileCache.items[todoItem.id] == nil
+        todoItemCache.items[todoItem.id] == nil
     }
 
     private let todoItem: TodoItem
-    private let fileCache: FileCache
+    private let todoItemCache: TodoItemCache
+    private let categoryCache: CategoryCache
 
-    init(todoItem: TodoItem, fileCache: FileCache = FileCache.shared) {
+    private var cancellables = Set<AnyCancellable>()
+
+    init(
+        todoItem: TodoItem,
+        todoItemCache: TodoItemCache = TodoItemCache.shared,
+        categoryCache: CategoryCache = CategoryCache.shared
+    ) {
         self.todoItem = todoItem
-        self.fileCache = fileCache
+        self.todoItemCache = todoItemCache
+        self.categoryCache = categoryCache
         self.text = todoItem.text
         self.priority = todoItem.priority
         self.deadline = todoItem.deadline
         self.modifiedAt = todoItem.modifiedAt
         self.isDeadlineEnabled = todoItem.deadline != nil
         self.selectedDeadline = todoItem.deadline ?? .nextDay
-        self.color = Color(hex: todoItem.color)
+        if let categoryId = todoItem.categoryId {
+            category = categoryCache.items[categoryId]
+            if let hex = category?.color {
+                self.color = Color(hex: hex)
+            }
+        }
     }
 
     func saveItem() {
-        fileCache.addItemAndSaveJson(
+        todoItemCache.addItemAndSaveJson(
             todoItem.copyWith(
                 text: text,
                 priority: priority,
                 deadline: deadline,
                 modifiedAt: modifiedAt,
-                color: color.hex
+                color: category?.color,
+                categoryId: category?.id
             )
         )
     }
 
     func removeItem() {
-        fileCache.removeItemAndSaveJson(id: todoItem.id)
+        todoItemCache.removeItemAndSaveJson(id: todoItem.id)
+    }
+
+    private func getColorFromCategory() -> Color? {
+        guard let hex = category?.color else { return nil }
+        return Color(hex: hex)
     }
 
 }

@@ -38,7 +38,6 @@ struct ColorPalette: View {
                     }
                 }
             }
-
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
@@ -61,7 +60,7 @@ struct ColorPalette: View {
                     .position(currentPoint)
             )
         }
-        .frame(minHeight: 100)
+
     }
 
     private func getColor(at point: CGPoint, in size: CGSize) -> Color {

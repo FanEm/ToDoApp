@@ -10,6 +10,7 @@ import Combine
 
 final class TodoListViewModel: ObservableObject {
 
+    @Published var todoItems: [TodoItem] = []
     @Published var todoViewPresented: Bool = false {
         didSet {
             if !todoViewPresented {
@@ -17,12 +18,20 @@ final class TodoListViewModel: ObservableObject {
             }
         }
     }
+    @Published var calendarViewPresented: Bool = false
     @Published var selectedTodoItem: TodoItem?
     @Published var newTodo: String = ""
-    @Published var fileCache: FileCache
-    
-    @Published var showCompleted: Bool = true
-    @Published var sortType: SortType = .addition
+    @Published var showCompleted: Bool = true {
+        didSet {
+            updateTodoItemsList()
+        }
+    }
+    @Published var sortType: SortType = .addition {
+        didSet {
+            updateTodoItemsList()
+        }
+    }
+    @Published private var todoItemCache: TodoItemCache
 
     enum SortType {
         case priority, addition
@@ -42,35 +51,27 @@ final class TodoListViewModel: ObservableObject {
     }
 
     var doneCount: Int {
-        fileCache.items.values.filter({ $0.isDone }).count
+        todoItemCache.items.values.filter({ $0.isDone }).count
     }
 
-    var items: [TodoItem] {
-        applyFilters(items: Array(fileCache.items.values))
-    }
+    private var cancellables = Set<AnyCancellable>()
 
-    private var anyCancellable: AnyCancellable? = nil
-
-    init(fileCache: FileCache = FileCache.shared) {
-        self.fileCache = fileCache
-        try? self.fileCache.loadJson()
-        anyCancellable = fileCache.objectWillChange.sink { [weak self] (_) in
-            self?.objectWillChange.send()
-        }
+    init(todoItemCache: TodoItemCache = TodoItemCache.shared) {
+        self.todoItemCache = todoItemCache
+        try? self.todoItemCache.loadJson()
+        setupBindings()
     }
 
     func addItem(_ item: TodoItem) {
-        fileCache.addItemAndSaveJson(item)
+        todoItemCache.addItemAndSaveJson(item)
     }
 
     func toggleDone(_ todoItem: TodoItem) {
-        fileCache.addItemAndSaveJson(
-            todoItem.copyWith(deadline: todoItem.deadline, isDone: !todoItem.isDone)
-        )
+        todoItemCache.addItemAndSaveJson(todoItem.toggleDone(!todoItem.isDone))
     }
 
     func delete(_ todoItem: TodoItem) {
-        fileCache.removeItemAndSaveJson(id: todoItem.id)
+        todoItemCache.removeItemAndSaveJson(id: todoItem.id)
     }
 
     func toggleShowCompleted() {
@@ -81,12 +82,36 @@ final class TodoListViewModel: ObservableObject {
         sortType = sortType == .addition ? .priority : .addition
     }
 
+    func colorFor(todoItem: TodoItem) -> Color? {
+        guard let hex = todoItem.color else { return nil }
+        return Color(hex: hex)
+    }
+
+    private func updateTodoItemsList() {
+        todoItems = applyFilters(items: Array(todoItemCache.items.values))
+    }
+
+    private func setupBindings() {
+        todoItemCache.$items
+            .sink { [weak self] newItems in
+                guard let self else { return }
+                self.todoItems = self.applyFilters(items: Array(newItems.values))
+            }
+            .store(in: &cancellables)
+    }
+
     private func applyFilters(items: [TodoItem]) -> [TodoItem] {
         var result = switch sortType {
         case .priority:
-            items.sorted { $0.priority > $1.priority}
+            items.sorted {
+                if $0.priority == $1.priority {
+                    return $0.createdAt < $1.createdAt
+                } else {
+                    return $0.priority > $1.priority
+                }
+            }
         case .addition:
-            items.sorted { $0.createdAt < $1.createdAt}
+            items.sorted { $0.createdAt < $1.createdAt }
         }
         if !showCompleted {
             result = result.filter { !$0.isDone }

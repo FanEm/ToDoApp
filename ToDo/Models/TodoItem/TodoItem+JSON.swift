@@ -8,15 +8,14 @@
 import Foundation
 
 // MARK: - Parse JSON
-extension TodoItem {
+extension TodoItem: FileCachableJson {
 
     var json: Any {
         var dict: [String: Any] = [
             Keys.id.rawValue: id,
             Keys.text.rawValue: text,
             Keys.createdAt.rawValue: createdAt.timeIntervalSince1970,
-            Keys.isDone.rawValue: isDone,
-            Keys.color.rawValue: color
+            Keys.isDone.rawValue: isDone
         ]
 
         if priority != .medium {
@@ -25,6 +24,14 @@ extension TodoItem {
 
         if let deadline {
             dict[Keys.deadline.rawValue] = deadline.timeIntervalSince1970
+        }
+
+        if let color {
+            dict[Keys.color.rawValue] = color
+        }
+
+        if let categoryId {
+            dict[Keys.categoryId.rawValue] = categoryId
         }
 
         if let modifiedAt {
@@ -59,8 +66,7 @@ extension TodoItem {
            let id = dict[Keys.id.rawValue] as? String,
            let text = dict[Keys.text.rawValue] as? String,
            let createdAtTimeInterval = dict[Keys.createdAt.rawValue] as? TimeInterval,
-           let isDone = dict[Keys.isDone.rawValue] as? Bool,
-           let color = dict[Keys.color.rawValue] as? String
+           let isDone = dict[Keys.isDone.rawValue] as? Bool
         else { return nil }
 
         let createdAt = Date(timeIntervalSince1970: createdAtTimeInterval)
@@ -74,6 +80,9 @@ extension TodoItem {
         let modifiedAtTimeInterval = dict[Keys.modifiedAt.rawValue] as? TimeInterval
         let modifiedAt = modifiedAtTimeInterval.flatMap { Date(timeIntervalSince1970: $0) }
 
+        let color = dict[Keys.color.rawValue] as? String
+        let categoryId = dict[Keys.categoryId.rawValue] as? String
+
         return TodoItem(
            id: id,
            text: text,
@@ -82,7 +91,8 @@ extension TodoItem {
            isDone: isDone,
            createdAt: createdAt,
            modifiedAt: modifiedAt,
-           color: color
+           color: color,
+           categoryId: categoryId
         )
     }
 

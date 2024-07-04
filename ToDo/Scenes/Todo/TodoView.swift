@@ -23,7 +23,7 @@ struct TodoView: View {
                     }
                     Section {
                         priorityCell
-                        colorCell
+                        categoryCell
                         deadlineCell
                         if viewModel.isDeadlineEnabled {
                             datePickerCell
@@ -43,9 +43,10 @@ struct TodoView: View {
             .confirmationDialog("", isPresented: $viewModel.isAlertShown) {
                 confirmation
             }
-            .sheet(isPresented: $viewModel.isColorPickerShown) {
-                CustomColorPicker(selectedColor: $viewModel.color)
-                    .presentationDetents([.medium])
+            .sheet(isPresented: $viewModel.isCategoryViewShown) {
+                CategoryView(category: $viewModel.category)
+                    .toolbar(.hidden, for: .navigationBar)
+                    .ignoresSafeArea()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -109,12 +110,14 @@ extension TodoView {
         .foregroundStyle(.textPrimary)
         .overlay(
             HStack {
-                Spacer()
-                Rectangle()
-                    .fill(viewModel.color)
-                    .frame(width: 5)
-                    .padding(.trailing, -5)
-                    .padding(.vertical, -12)
+                if let color = viewModel.color {
+                    Spacer()
+                    Rectangle()
+                        .fill(color)
+                        .frame(width: 5)
+                        .padding(.trailing, -5)
+                        .padding(.vertical, -12)
+                }
             }
         )
     }
@@ -161,24 +164,32 @@ extension TodoView {
         }
     }
 
-    private var colorCell: some View {
-        HStack {
-            Text("color")
-                .font(.todoBody)
-                .foregroundStyle(.textPrimary)
-                .truncationMode(.tail)
-            Spacer()
-            Button {
-                viewModel.isColorPickerShown = true
-            } label: {
-                HStack(spacing: 10) {
-                    Text(viewModel.color.hex ?? "")
-                        .font(.todoBody)
-                        .foregroundStyle(.textPrimary)
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(viewModel.color)
-                        .frame(width: 30, height: 30)
-                        .addBorder(Color.primarySeparator, cornerRadius: 10)
+    private var categoryCell: some View {
+        Button {
+            viewModel.isCategoryViewShown.toggle()
+        } label: {
+            HStack {
+                Text("category")
+                    .font(.todoBody)
+                    .foregroundStyle(.textPrimary)
+                    .truncationMode(.tail)
+                Spacer()
+                if let category = viewModel.category {
+                    HStack(spacing: 1) {
+                        Text(category.text)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .font(.todoBody)
+                            .foregroundStyle(.textPrimary)
+                        if let hex = category.color {
+                            Circle()
+                                .stroke(.black, lineWidth: 1)
+                                .fill(Color(hex: hex))
+                                .frame(width: 20, height: 20)
+                        }
+                    }
                 }
             }
         }
@@ -217,7 +228,9 @@ extension TodoView {
                 priority: .high,
                 deadline: .now,
                 isDone: false,
-                createdAt: .now
+                createdAt: .now,
+                color: nil,
+                categoryId: nil
             )
         )
     )
