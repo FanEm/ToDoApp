@@ -1,30 +1,30 @@
 //
-//  FileCacheTests.swift
+//  CategoryCacheTests.swift
 //  ToDoTests
 //
-//  Created by Artem Novikov on 15.06.2024.
+//  Created by Artem Novikov on 03.07.2024.
 //
 
 import XCTest
 @testable import ToDo
 
-final class FileCacheTests: XCTestCase {
-    
+final class CategoryCacheTests: XCTestCase {
+
     private enum Constants {
         static let date = Date(timeIntervalSince1970: 1718465615)
-        static let item1 = TodoItem(text: "item1", priority: .low, deadline: date, isDone: false, createdAt: date, modifiedAt: date)
-        static let item2 = TodoItem(text: "item2", priority: .medium, isDone: true, createdAt: date)
+        static let item1 = Category(id: "1", text: "category1", color: "#ffffff", createdAt: date)
+        static let item2 = Category(id: "2", text: "category2", color: "#000000", createdAt: date)
         enum FileName {
-            static let json = "items.json"
-            static let csv = "items.csv"
+            static let json = "categories.json"
+            static let csv = "categories.csv"
         }
     }
 
-    private let fileCache = FileCache.shared
+    private let fileCache = CategoryCache.shared
 
     override class func setUp() {
         super.setUp()
-        FileCache.shared.removeAllItems()
+        CategoryCache.shared.removeAllItems()
     }
 
     override func tearDown() {

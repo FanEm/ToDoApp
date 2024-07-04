@@ -1,5 +1,5 @@
 //
-//  Fonts.swift
+//  Fonts+Extensions.swift
 //  ToDo
 //
 //  Created by Artem Novikov on 27.06.2024.

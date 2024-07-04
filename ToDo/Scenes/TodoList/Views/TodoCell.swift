@@ -11,6 +11,7 @@ import SwiftUI
 struct TodoCell: View {
 
     let todoItem: TodoItem
+    let color: Color?
     let onTap: () -> Void
     let onRadioButtonTap: () -> Void
 
@@ -39,7 +40,7 @@ struct TodoCell: View {
                 Image(.chevron)
                     .padding(.trailing, 5)
                 Rectangle()
-                    .fill(Color(hex: todoItem.color))
+                    .fill(color ?? .clear)
                     .frame(width: 5)
                     .padding(.vertical, -5)
             }
@@ -111,6 +112,7 @@ extension TodoCell {
             isDone: false,
             createdAt: .now
         ),
+        color: .primaryRed,
         onTap: {},
         onRadioButtonTap: {}
     )

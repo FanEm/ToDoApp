@@ -17,12 +17,13 @@ struct TodoList: View {
         NavigationStack {
             List {
                 Section {
-                    ForEach(viewModel.items) { todoItem in
+                    ForEach(viewModel.todoItems) { todoItem in
                         TodoCell(
                             todoItem: todoItem,
+                            color: viewModel.colorFor(todoItem: todoItem),
                             onTap: {
                                 viewModel.selectedTodoItem = todoItem
-                                viewModel.todoViewPresented = true
+                                viewModel.todoViewPresented.toggle()
                             },
                             onRadioButtonTap: {
                                 viewModel.toggleDone(todoItem)
@@ -36,7 +37,7 @@ struct TodoList: View {
                         }
                         .withInfo {
                             viewModel.selectedTodoItem = todoItem
-                            viewModel.todoViewPresented = true
+                            viewModel.todoViewPresented.toggle()
                         }
                     }
                     newEventTextView
@@ -46,6 +47,11 @@ struct TodoList: View {
             .groupedList()
             .navigationTitle("title")
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    calendarButton
+                }
+            }
             .safeAreaInset(edge: .bottom) {
                 floatingButton
             }
@@ -56,6 +62,10 @@ struct TodoList: View {
                     )
                 )
             }
+            .fullScreenCover(isPresented: $viewModel.calendarViewPresented) {
+                CalendarView()
+                    .ignoresSafeArea()
+            }
         }
     }
 
@@ -63,6 +73,17 @@ struct TodoList: View {
 
 // MARK: - UI Elements
 extension TodoList {
+
+    private var calendarButton: some View {
+        Button {
+            viewModel.calendarViewPresented.toggle()
+        } label: {
+            Image(systemName: "calendar")
+                .resizable()
+                .foregroundStyle(.textPrimary, .primaryBlue)
+                .frame(width: 20, height: 20, alignment: .center)
+        }
+    }
 
     private var newEventTextView: some View {
         TextField(
@@ -137,7 +158,6 @@ extension TodoList {
                 .resizable()
                 .foregroundStyle(.textPrimary, .primaryBlue)
                 .frame(width: 20, height: 20, alignment: .center)
-                
         }
     }
 

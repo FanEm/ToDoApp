@@ -8,22 +8,21 @@
 import Foundation
 
 // MARK: - Parse CSV
-extension TodoItem {
+extension TodoItem: FileCachableCsv {
 
     var csv: String {
         "\(id),\(text),\(priority == .medium ? " " : priority.rawValue)," +
         "\(deadline == nil ? " " : String(deadline!.timeIntervalSince1970))," +
         "\(String(isDone)),\(String(createdAt.timeIntervalSince1970))," +
         "\(modifiedAt == nil ? " " : String(modifiedAt!.timeIntervalSince1970))," +
-        "\(color)"
+        "\(color == nil ? " " : color!),\(categoryId == nil ? " " : categoryId!)"
     }
 
     static var csvHeader: [String] {
         [
-            Keys.id.rawValue, Keys.text.rawValue, Keys.priority.rawValue,
-            Keys.deadline.rawValue, Keys.isDone.rawValue,
-            Keys.createdAt.rawValue, Keys.modifiedAt.rawValue, Keys.color.rawValue
-        ]
+            Keys.id, Keys.text, Keys.priority, Keys.deadline, Keys.isDone,
+            Keys.createdAt, Keys.modifiedAt, Keys.color, Keys.categoryId
+        ].map { $0.rawValue }
     }
 
     static func parse(csv: String) -> TodoItem? {
@@ -39,16 +38,19 @@ extension TodoItem {
               let isDoneString = dict[Keys.isDone.rawValue],
               let isDone = Bool(isDoneString),
               let createdAtString = dict[Keys.createdAt.rawValue],
-              let createdAtTimeInterval = TimeInterval(createdAtString),
-              let color = dict[Keys.color.rawValue]
+              let createdAtTimeInterval = TimeInterval(createdAtString)
         else {
             return nil
         }
 
         let createdAt = Date(timeIntervalSince1970: createdAtTimeInterval)
         let priority = Priority(rawValue: dict[Keys.priority.rawValue] ?? "") ?? .medium
-        let deadline = TimeInterval(dict[Keys.deadline.rawValue] ?? "").flatMap { Date(timeIntervalSince1970: $0) }
-        let modifiedAt = TimeInterval(dict[Keys.modifiedAt.rawValue] ?? "").flatMap { Date(timeIntervalSince1970: $0) }
+        let deadline = TimeInterval(dict[Keys.deadline.rawValue] ?? "")
+                            .flatMap { Date(timeIntervalSince1970: $0) }
+        let modifiedAt = TimeInterval(dict[Keys.modifiedAt.rawValue] ?? "")
+                            .flatMap { Date(timeIntervalSince1970: $0) }
+        let color = dict[Keys.color.rawValue] == " " ? nil : dict[Keys.color.rawValue]
+        let categoryId = dict[Keys.categoryId.rawValue] == " " ? nil : dict[Keys.categoryId.rawValue]
 
         return TodoItem(
             id: id,
@@ -58,7 +60,8 @@ extension TodoItem {
             isDone: isDone,
             createdAt: createdAt,
             modifiedAt: modifiedAt,
-            color: color
+            color: color,
+            categoryId: categoryId
         )
     }
 

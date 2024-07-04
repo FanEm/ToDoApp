@@ -8,14 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		F351E0E32C2D642200CC5C07 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F351E0E22C2D642200CC5C07 /* Colors.xcassets */; };
+		F3525D5D2C3555C2001F8D61 /* CategoryUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D5C2C3555C2001F8D61 /* CategoryUIView.swift */; };
+		F3525D5F2C355656001F8D61 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D5E2C355656001F8D61 /* CategoryTableViewCell.swift */; };
+		F3525D612C355858001F8D61 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D602C355858001F8D61 /* CategoryViewController.swift */; };
+		F3525D632C355862001F8D61 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D622C355862001F8D61 /* CategoryView.swift */; };
+		F3525D652C3565AF001F8D61 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D642C3565AF001F8D61 /* Category.swift */; };
+		F3525D672C356670001F8D61 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D662C356670001F8D61 /* FileCache.swift */; };
+		F3525D692C3571C5001F8D61 /* CategoryCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D682C3571C5001F8D61 /* CategoryCacheTests.swift */; };
+		F3525D6C2C35737C001F8D61 /* Category+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D6B2C35737C001F8D61 /* Category+JSON.swift */; };
+		F3525D6E2C357385001F8D61 /* Category+CSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D6D2C357385001F8D61 /* Category+CSV.swift */; };
+		F3525D722C3578BA001F8D61 /* FileCachable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D712C3578BA001F8D61 /* FileCachable.swift */; };
+		F3525D742C3578DB001F8D61 /* TodoItemCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D732C3578DB001F8D61 /* TodoItemCache.swift */; };
+		F3525D762C3578E2001F8D61 /* CategoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D752C3578E2001F8D61 /* CategoryCache.swift */; };
+		F3525D7A2C359488001F8D61 /* NewCategoryUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D792C359488001F8D61 /* NewCategoryUIView.swift */; };
+		F3525D7D2C359676001F8D61 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D7C2C359676001F8D61 /* BaseButton.swift */; };
+		F3525D7F2C3596AF001F8D61 /* PlainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D7E2C3596AF001F8D61 /* PlainButton.swift */; };
+		F3525D812C3597EA001F8D61 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D802C3597EA001F8D61 /* NewCategoryViewController.swift */; };
+		F3525D862C359E93001F8D61 /* NewCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D852C359E93001F8D61 /* NewCategoryViewModel.swift */; };
+		F3525D8B2C35BA4E001F8D61 /* TextFieldWithInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D8A2C35BA4E001F8D61 /* TextFieldWithInset.swift */; };
+		F3525D912C35BD6A001F8D61 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D902C35BD6A001F8D61 /* UIViewController+Extensions.swift */; };
+		F3525D932C36C46F001F8D61 /* BaseScrollableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D922C36C46F001F8D61 /* BaseScrollableViewController.swift */; };
+		F3525D952C36CDA5001F8D61 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3525D942C36CDA5001F8D61 /* CategoryViewModel.swift */; };
 		F35B3F422C1DBD3B00351008 /* ToDoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F412C1DBD3B00351008 /* ToDoApp.swift */; };
 		F35B3F462C1DBD3D00351008 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F35B3F452C1DBD3D00351008 /* Icons.xcassets */; };
 		F35B3F492C1DBD3D00351008 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F35B3F482C1DBD3D00351008 /* Preview Assets.xcassets */; };
 		F35B3F512C1DBD6F00351008 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F502C1DBD6F00351008 /* TodoItem.swift */; };
 		F35B3F592C1DBF2300351008 /* TodoItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F582C1DBF2300351008 /* TodoItemTests.swift */; };
-		F35B3F602C1DD21900351008 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F5F2C1DD21900351008 /* FileCache.swift */; };
-		F35B3F632C1DFA1D00351008 /* FileCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F622C1DFA1D00351008 /* FileCacheTests.swift */; };
-		F3F3FAAF2C2D788200991A3A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAAE2C2D788200991A3A /* Fonts.swift */; };
+		F35B3F632C1DFA1D00351008 /* TodoItemCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F622C1DFA1D00351008 /* TodoItemCacheTests.swift */; };
+		F39BE02E2C32DA9600EC634B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE02D2C32DA9600EC634B /* CalendarViewController.swift */; };
+		F39BE0302C32DA9F00EC634B /* CalendarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE02F2C32DA9F00EC634B /* CalendarUIView.swift */; };
+		F39BE0322C32DBA500EC634B /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0312C32DBA500EC634B /* UIView+Extensions.swift */; };
+		F39BE0342C32DD0E00EC634B /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0332C32DD0E00EC634B /* CalendarView.swift */; };
+		F39BE0362C32EEB600EC634B /* CellsReusingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0352C32EEB600EC634B /* CellsReusingUtils.swift */; };
+		F39BE0382C32EECD00EC634B /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0372C32EECD00EC634B /* CalendarCollectionViewCell.swift */; };
+		F39BE03B2C32EFF900EC634B /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE03A2C32EFF900EC634B /* CalendarTableViewCell.swift */; };
+		F39BE03D2C32F11B00EC634B /* CalendarSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE03C2C32F11B00EC634B /* CalendarSectionHeaderView.swift */; };
+		F39BE03F2C32F15100EC634B /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE03E2C32F15100EC634B /* CalendarViewModel.swift */; };
+		F39BE0432C330DED00EC634B /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0422C330DED00EC634B /* UIFont+Extensions.swift */; };
+		F39BE0462C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0452C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift */; };
+		F39BE0482C346B8600EC634B /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0472C346B8600EC634B /* FloatingButton.swift */; };
+		F3F3FAAF2C2D788200991A3A /* Fonts+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAAE2C2D788200991A3A /* Fonts+Extensions.swift */; };
 		F3F3FAB32C2D7AD600991A3A /* TodoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAB22C2D7AD600991A3A /* TodoCell.swift */; };
 		F3F3FAB52C2D80D500991A3A /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAB42C2D80D500991A3A /* TodoList.swift */; };
 		F3F3FAB72C2D821500991A3A /* TodoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAB62C2D821500991A3A /* TodoListViewModel.swift */; };
@@ -29,7 +61,7 @@
 		F3F3FACC2C2EB81A00991A3A /* TodoItem+CSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FACB2C2EB81A00991A3A /* TodoItem+CSV.swift */; };
 		F3F3FACE2C2EBD0F00991A3A /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FACD2C2EBD0F00991A3A /* TodoViewModel.swift */; };
 		F3F3FAD02C2ED4E300991A3A /* DeleteSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FACF2C2ED4E300991A3A /* DeleteSwipe.swift */; };
-		F3F3FAD22C2EF9E200991A3A /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAD12C2EF9E200991A3A /* ColorPickerView.swift */; };
+		F3F3FAD22C2EF9E200991A3A /* CustomColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAD12C2EF9E200991A3A /* CustomColorPicker.swift */; };
 		F3F3FAD42C2EFDE200991A3A /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAD32C2EFDE200991A3A /* Color+Extensions.swift */; };
 		F3F3FAD92C2F162200991A3A /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAD82C2F162200991A3A /* ColorPalette.swift */; };
 		F3F3FADB2C2F166100991A3A /* ColorPickerSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FADA2C2F166100991A3A /* ColorPickerSlider.swift */; };
@@ -49,6 +81,27 @@
 
 /* Begin PBXFileReference section */
 		F351E0E22C2D642200CC5C07 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		F3525D5C2C3555C2001F8D61 /* CategoryUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryUIView.swift; sourceTree = "<group>"; };
+		F3525D5E2C355656001F8D61 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		F3525D602C355858001F8D61 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		F3525D622C355862001F8D61 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		F3525D642C3565AF001F8D61 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		F3525D662C356670001F8D61 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
+		F3525D682C3571C5001F8D61 /* CategoryCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCacheTests.swift; sourceTree = "<group>"; };
+		F3525D6B2C35737C001F8D61 /* Category+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+JSON.swift"; sourceTree = "<group>"; };
+		F3525D6D2C357385001F8D61 /* Category+CSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+CSV.swift"; sourceTree = "<group>"; };
+		F3525D712C3578BA001F8D61 /* FileCachable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCachable.swift; sourceTree = "<group>"; };
+		F3525D732C3578DB001F8D61 /* TodoItemCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemCache.swift; sourceTree = "<group>"; };
+		F3525D752C3578E2001F8D61 /* CategoryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCache.swift; sourceTree = "<group>"; };
+		F3525D792C359488001F8D61 /* NewCategoryUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryUIView.swift; sourceTree = "<group>"; };
+		F3525D7C2C359676001F8D61 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
+		F3525D7E2C3596AF001F8D61 /* PlainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainButton.swift; sourceTree = "<group>"; };
+		F3525D802C3597EA001F8D61 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
+		F3525D852C359E93001F8D61 /* NewCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewModel.swift; sourceTree = "<group>"; };
+		F3525D8A2C35BA4E001F8D61 /* TextFieldWithInset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithInset.swift; sourceTree = "<group>"; };
+		F3525D902C35BD6A001F8D61 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		F3525D922C36C46F001F8D61 /* BaseScrollableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScrollableViewController.swift; sourceTree = "<group>"; };
+		F3525D942C36CDA5001F8D61 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		F35B3F3E2C1DBD3B00351008 /* ToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B3F412C1DBD3B00351008 /* ToDoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoApp.swift; sourceTree = "<group>"; };
 		F35B3F452C1DBD3D00351008 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
@@ -56,9 +109,20 @@
 		F35B3F502C1DBD6F00351008 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		F35B3F562C1DBF2300351008 /* ToDoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B3F582C1DBF2300351008 /* TodoItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemTests.swift; sourceTree = "<group>"; };
-		F35B3F5F2C1DD21900351008 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
-		F35B3F622C1DFA1D00351008 /* FileCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheTests.swift; sourceTree = "<group>"; };
-		F3F3FAAE2C2D788200991A3A /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		F35B3F622C1DFA1D00351008 /* TodoItemCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemCacheTests.swift; sourceTree = "<group>"; };
+		F39BE02D2C32DA9600EC634B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		F39BE02F2C32DA9F00EC634B /* CalendarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUIView.swift; sourceTree = "<group>"; };
+		F39BE0312C32DBA500EC634B /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		F39BE0332C32DD0E00EC634B /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		F39BE0352C32EEB600EC634B /* CellsReusingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellsReusingUtils.swift; sourceTree = "<group>"; };
+		F39BE0372C32EECD00EC634B /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
+		F39BE03A2C32EFF900EC634B /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
+		F39BE03C2C32F11B00EC634B /* CalendarSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSectionHeaderView.swift; sourceTree = "<group>"; };
+		F39BE03E2C32F15100EC634B /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		F39BE0422C330DED00EC634B /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		F39BE0452C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionsConfigurationBuilder.swift; sourceTree = "<group>"; };
+		F39BE0472C346B8600EC634B /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		F3F3FAAE2C2D788200991A3A /* Fonts+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fonts+Extensions.swift"; sourceTree = "<group>"; };
 		F3F3FAB22C2D7AD600991A3A /* TodoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCell.swift; sourceTree = "<group>"; };
 		F3F3FAB42C2D80D500991A3A /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
 		F3F3FAB62C2D821500991A3A /* TodoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewModel.swift; sourceTree = "<group>"; };
@@ -72,7 +136,7 @@
 		F3F3FACB2C2EB81A00991A3A /* TodoItem+CSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CSV.swift"; sourceTree = "<group>"; };
 		F3F3FACD2C2EBD0F00991A3A /* TodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
 		F3F3FACF2C2ED4E300991A3A /* DeleteSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSwipe.swift; sourceTree = "<group>"; };
-		F3F3FAD12C2EF9E200991A3A /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
+		F3F3FAD12C2EF9E200991A3A /* CustomColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorPicker.swift; sourceTree = "<group>"; };
 		F3F3FAD32C2EFDE200991A3A /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		F3F3FAD82C2F162200991A3A /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		F3F3FADA2C2F166100991A3A /* ColorPickerSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerSlider.swift; sourceTree = "<group>"; };
@@ -101,7 +165,10 @@
 		F351E0DE2C2D61FB00CC5C07 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F3525D7B2C359668001F8D61 /* Base */,
+				F39BE02C2C32DA8800EC634B /* Calendar */,
 				F3F3FAD52C2F106F00991A3A /* ColorPicker */,
+				F3525D5B2C3555B4001F8D61 /* Category */,
 				F351E0E02C2D621500CC5C07 /* Todo */,
 				F351E0DF2C2D620900CC5C07 /* TodoList */,
 			);
@@ -130,12 +197,85 @@
 		F351E0E12C2D63D700CC5C07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F3F3FAAE2C2D788200991A3A /* Fonts.swift */,
 				F35B3F452C1DBD3D00351008 /* Icons.xcassets */,
 				F351E0E22C2D642200CC5C07 /* Colors.xcassets */,
 				F3F3FAB82C2D9C8C00991A3A /* Localizable.xcstrings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		F3525D5B2C3555B4001F8D61 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				F3525D872C359FDB001F8D61 /* CategoryList */,
+				F3525D842C3599AC001F8D61 /* NewCategory */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		F3525D6A2C357370001F8D61 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				F3525D642C3565AF001F8D61 /* Category.swift */,
+				F3525D6B2C35737C001F8D61 /* Category+JSON.swift */,
+				F3525D6D2C357385001F8D61 /* Category+CSV.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		F3525D6F2C3573A5001F8D61 /* TodoItem */ = {
+			isa = PBXGroup;
+			children = (
+				F35B3F502C1DBD6F00351008 /* TodoItem.swift */,
+				F3F3FAC92C2EB81000991A3A /* TodoItem+JSON.swift */,
+				F3F3FACB2C2EB81A00991A3A /* TodoItem+CSV.swift */,
+			);
+			path = TodoItem;
+			sourceTree = "<group>";
+		};
+		F3525D702C3574DA001F8D61 /* FileCache */ = {
+			isa = PBXGroup;
+			children = (
+				F3525D662C356670001F8D61 /* FileCache.swift */,
+				F3525D752C3578E2001F8D61 /* CategoryCache.swift */,
+				F3525D732C3578DB001F8D61 /* TodoItemCache.swift */,
+				F3525D712C3578BA001F8D61 /* FileCachable.swift */,
+			);
+			path = FileCache;
+			sourceTree = "<group>";
+		};
+		F3525D7B2C359668001F8D61 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				F3525D7C2C359676001F8D61 /* BaseButton.swift */,
+				F39BE0472C346B8600EC634B /* FloatingButton.swift */,
+				F3525D7E2C3596AF001F8D61 /* PlainButton.swift */,
+				F3525D8A2C35BA4E001F8D61 /* TextFieldWithInset.swift */,
+				F3525D922C36C46F001F8D61 /* BaseScrollableViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		F3525D842C3599AC001F8D61 /* NewCategory */ = {
+			isa = PBXGroup;
+			children = (
+				F3525D792C359488001F8D61 /* NewCategoryUIView.swift */,
+				F3525D802C3597EA001F8D61 /* NewCategoryViewController.swift */,
+				F3525D852C359E93001F8D61 /* NewCategoryViewModel.swift */,
+			);
+			path = NewCategory;
+			sourceTree = "<group>";
+		};
+		F3525D872C359FDB001F8D61 /* CategoryList */ = {
+			isa = PBXGroup;
+			children = (
+				F3525D5C2C3555C2001F8D61 /* CategoryUIView.swift */,
+				F3525D622C355862001F8D61 /* CategoryView.swift */,
+				F3525D5E2C355656001F8D61 /* CategoryTableViewCell.swift */,
+				F3525D602C355858001F8D61 /* CategoryViewController.swift */,
+				F3525D942C36CDA5001F8D61 /* CategoryViewModel.swift */,
+			);
+			path = CategoryList;
 			sourceTree = "<group>";
 		};
 		F35B3F352C1DBD3B00351008 = {
@@ -181,9 +321,8 @@
 		F35B3F4F2C1DBD5000351008 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F35B3F502C1DBD6F00351008 /* TodoItem.swift */,
-				F3F3FAC92C2EB81000991A3A /* TodoItem+JSON.swift */,
-				F3F3FACB2C2EB81A00991A3A /* TodoItem+CSV.swift */,
+				F3525D6F2C3573A5001F8D61 /* TodoItem */,
+				F3525D6A2C357370001F8D61 /* Category */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -192,7 +331,8 @@
 			isa = PBXGroup;
 			children = (
 				F35B3F582C1DBF2300351008 /* TodoItemTests.swift */,
-				F35B3F622C1DFA1D00351008 /* FileCacheTests.swift */,
+				F35B3F622C1DFA1D00351008 /* TodoItemCacheTests.swift */,
+				F3525D682C3571C5001F8D61 /* CategoryCacheTests.swift */,
 			);
 			path = ToDoTests;
 			sourceTree = "<group>";
@@ -200,9 +340,40 @@
 		F35B3F612C1DD21F00351008 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				F35B3F5F2C1DD21900351008 /* FileCache.swift */,
+				F3525D702C3574DA001F8D61 /* FileCache */,
+				F39BE0452C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		F39BE02C2C32DA8800EC634B /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				F39BE0402C32FBA100EC634B /* UIKit */,
+				F39BE0332C32DD0E00EC634B /* CalendarView.swift */,
+				F39BE03E2C32F15100EC634B /* CalendarViewModel.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		F39BE0402C32FBA100EC634B /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				F39BE0412C32FBAA00EC634B /* Views */,
+				F39BE02D2C32DA9600EC634B /* CalendarViewController.swift */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		F39BE0412C32FBAA00EC634B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F39BE03A2C32EFF900EC634B /* CalendarTableViewCell.swift */,
+				F39BE03C2C32F11B00EC634B /* CalendarSectionHeaderView.swift */,
+				F39BE0372C32EECD00EC634B /* CalendarCollectionViewCell.swift */,
+				F39BE02F2C32DA9F00EC634B /* CalendarUIView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F3F3FAB12C2D7ABA00991A3A /* App */ = {
@@ -237,9 +408,14 @@
 		F3F3FAC42C2DD50C00991A3A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				F39BE0422C330DED00EC634B /* UIFont+Extensions.swift */,
+				F3F3FAAE2C2D788200991A3A /* Fonts+Extensions.swift */,
 				F3F3FAC52C2DD51F00991A3A /* Date+Extensions.swift */,
 				F3F3FAD32C2EFDE200991A3A /* Color+Extensions.swift */,
 				F3F3FADD2C2F32B100991A3A /* View+Extensions.swift */,
+				F39BE0312C32DBA500EC634B /* UIView+Extensions.swift */,
+				F39BE0352C32EEB600EC634B /* CellsReusingUtils.swift */,
+				F3525D902C35BD6A001F8D61 /* UIViewController+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -255,7 +431,7 @@
 		F3F3FADC2C2F16A100991A3A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F3F3FAD12C2EF9E200991A3A /* ColorPickerView.swift */,
+				F3F3FAD12C2EF9E200991A3A /* CustomColorPicker.swift */,
 				F3F3FAD82C2F162200991A3A /* ColorPalette.swift */,
 				F3F3FADA2C2F166100991A3A /* ColorPickerSlider.swift */,
 			);
@@ -269,6 +445,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F35B3F4C2C1DBD3D00351008 /* Build configuration list for PBXNativeTarget "ToDo" */;
 			buildPhases = (
+				F39BE0442C332A4700EC634B /* SwiftLint */,
 				F35B3F3A2C1DBD3B00351008 /* Sources */,
 				F35B3F3B2C1DBD3B00351008 /* Frameworks */,
 				F35B3F3C2C1DBD3B00351008 /* Resources */,
@@ -360,33 +537,86 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		F39BE0442C332A4700EC634B /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F35B3F3A2C1DBD3B00351008 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F3F3FAC82C2DE35400991A3A /* GroupedList.swift in Sources */,
+				F39BE0482C346B8600EC634B /* FloatingButton.swift in Sources */,
+				F3525D952C36CDA5001F8D61 /* CategoryViewModel.swift in Sources */,
 				F3F3FAB72C2D821500991A3A /* TodoListViewModel.swift in Sources */,
+				F39BE0322C32DBA500EC634B /* UIView+Extensions.swift in Sources */,
+				F39BE0302C32DA9F00EC634B /* CalendarUIView.swift in Sources */,
 				F3F3FADE2C2F32B100991A3A /* View+Extensions.swift in Sources */,
 				F3F3FADB2C2F166100991A3A /* ColorPickerSlider.swift in Sources */,
+				F3525D812C3597EA001F8D61 /* NewCategoryViewController.swift in Sources */,
+				F39BE0342C32DD0E00EC634B /* CalendarView.swift in Sources */,
+				F39BE02E2C32DA9600EC634B /* CalendarViewController.swift in Sources */,
+				F39BE0382C32EECD00EC634B /* CalendarCollectionViewCell.swift in Sources */,
 				F3F3FAB52C2D80D500991A3A /* TodoList.swift in Sources */,
 				F3F3FAC62C2DD51F00991A3A /* Date+Extensions.swift in Sources */,
 				F3F3FAB32C2D7AD600991A3A /* TodoCell.swift in Sources */,
 				F3F3FAC12C2DC5E000991A3A /* View+Modifiers.swift in Sources */,
-				F3F3FAAF2C2D788200991A3A /* Fonts.swift in Sources */,
+				F3F3FAAF2C2D788200991A3A /* Fonts+Extensions.swift in Sources */,
+				F3525D912C35BD6A001F8D61 /* UIViewController+Extensions.swift in Sources */,
 				F3F3FACE2C2EBD0F00991A3A /* TodoViewModel.swift in Sources */,
+				F3525D7F2C3596AF001F8D61 /* PlainButton.swift in Sources */,
+				F3525D8B2C35BA4E001F8D61 /* TextFieldWithInset.swift in Sources */,
+				F39BE03B2C32EFF900EC634B /* CalendarTableViewCell.swift in Sources */,
 				F3F3FACC2C2EB81A00991A3A /* TodoItem+CSV.swift in Sources */,
+				F3525D672C356670001F8D61 /* FileCache.swift in Sources */,
 				F3F3FAD02C2ED4E300991A3A /* DeleteSwipe.swift in Sources */,
 				F3F3FABF2C2DC5B300991A3A /* MarkAsDoneSwipe.swift in Sources */,
+				F39BE0462C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift in Sources */,
+				F3525D722C3578BA001F8D61 /* FileCachable.swift in Sources */,
 				F3F3FABD2C2DC59700991A3A /* InfoSwipe.swift in Sources */,
 				F3F3FAD92C2F162200991A3A /* ColorPalette.swift in Sources */,
+				F3525D6C2C35737C001F8D61 /* Category+JSON.swift in Sources */,
 				F3F3FACA2C2EB81000991A3A /* TodoItem+JSON.swift in Sources */,
-				F3F3FAD22C2EF9E200991A3A /* ColorPickerView.swift in Sources */,
+				F3525D742C3578DB001F8D61 /* TodoItemCache.swift in Sources */,
+				F3525D632C355862001F8D61 /* CategoryView.swift in Sources */,
+				F3F3FAD22C2EF9E200991A3A /* CustomColorPicker.swift in Sources */,
+				F3525D762C3578E2001F8D61 /* CategoryCache.swift in Sources */,
 				F35B3F512C1DBD6F00351008 /* TodoItem.swift in Sources */,
+				F3525D7A2C359488001F8D61 /* NewCategoryUIView.swift in Sources */,
 				F3F3FAD42C2EFDE200991A3A /* Color+Extensions.swift in Sources */,
-				F35B3F602C1DD21900351008 /* FileCache.swift in Sources */,
+				F3525D7D2C359676001F8D61 /* BaseButton.swift in Sources */,
+				F39BE0362C32EEB600EC634B /* CellsReusingUtils.swift in Sources */,
+				F3525D5D2C3555C2001F8D61 /* CategoryUIView.swift in Sources */,
+				F39BE03D2C32F11B00EC634B /* CalendarSectionHeaderView.swift in Sources */,
+				F39BE03F2C32F15100EC634B /* CalendarViewModel.swift in Sources */,
+				F39BE0432C330DED00EC634B /* UIFont+Extensions.swift in Sources */,
+				F3525D612C355858001F8D61 /* CategoryViewController.swift in Sources */,
+				F3525D652C3565AF001F8D61 /* Category.swift in Sources */,
+				F3525D6E2C357385001F8D61 /* Category+CSV.swift in Sources */,
+				F3525D862C359E93001F8D61 /* NewCategoryViewModel.swift in Sources */,
 				F3F3FAE02C2F44B900991A3A /* TodoView.swift in Sources */,
 				F35B3F422C1DBD3B00351008 /* ToDoApp.swift in Sources */,
+				F3525D5F2C355656001F8D61 /* CategoryTableViewCell.swift in Sources */,
+				F3525D932C36C46F001F8D61 /* BaseScrollableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +624,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F35B3F632C1DFA1D00351008 /* FileCacheTests.swift in Sources */,
+				F3525D692C3571C5001F8D61 /* CategoryCacheTests.swift in Sources */,
+				F35B3F632C1DFA1D00351008 /* TodoItemCacheTests.swift in Sources */,
 				F35B3F592C1DBF2300351008 /* TodoItemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +770,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"ToDo/Preview Content\"";
 				DEVELOPMENT_TEAM = 3CS9T7BB6F;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = ToDo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -570,6 +802,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"ToDo/Preview Content\"";
 				DEVELOPMENT_TEAM = 3CS9T7BB6F;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = ToDo;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
