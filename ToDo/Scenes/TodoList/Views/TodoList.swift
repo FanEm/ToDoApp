@@ -24,20 +24,25 @@ struct TodoList: View {
                             onTap: {
                                 viewModel.selectedTodoItem = todoItem
                                 viewModel.todoViewPresented.toggle()
+                                AnalyticsService.todoListTapEditEvent()
                             },
                             onRadioButtonTap: {
                                 viewModel.toggleDone(todoItem)
+                                AnalyticsService.todoListTapMarkAsCompleted(!todoItem.isDone)
                             }
                         )
                         .markableAsDone(isDone: todoItem.isDone) {
                             viewModel.toggleDone(todoItem)
+                            AnalyticsService.todoListSwipeMarkAsCompleted(!todoItem.isDone)
                         }
                         .deletable {
                             viewModel.delete(todoItem)
+                            AnalyticsService.todoListSwipeToDelete()
                         }
                         .withInfo {
                             viewModel.selectedTodoItem = todoItem
                             viewModel.todoViewPresented.toggle()
+                            AnalyticsService.todoListSwipeInfo()
                         }
                     }
                     newEventTextView
@@ -66,6 +71,9 @@ struct TodoList: View {
                 CalendarView()
                     .ignoresSafeArea()
             }
+            .onAppear {
+                AnalyticsService.openTodoList()
+            }
         }
     }
 
@@ -77,6 +85,7 @@ extension TodoList {
     private var calendarButton: some View {
         Button {
             viewModel.calendarViewPresented.toggle()
+            AnalyticsService.todoListTapCalendar()
         } label: {
             Image(systemName: "calendar")
                 .resizable()
@@ -101,6 +110,7 @@ extension TodoList {
                 viewModel.addItem(TodoItem(text: viewModel.newTodo))
                 viewModel.newTodo = ""
                 isFocused = true
+                AnalyticsService.todoListTapQuickAddNewEvent()
             }
         }
     }
@@ -108,6 +118,7 @@ extension TodoList {
     private var floatingButton: some View {
         Button {
             viewModel.todoViewPresented.toggle()
+            AnalyticsService.todoListTapAddNewEvent()
         } label: {
             Image(systemName: "plus.circle.fill")
                 .resizable()
@@ -136,6 +147,7 @@ extension TodoList {
             Section {
                 Button {
                     viewModel.toggleShowCompleted()
+                    AnalyticsService.todoListFilterShowCompleted(!viewModel.showCompleted)
                 } label: {
                     Label(
                         viewModel.showCompleted ? "hide" : "show",
@@ -145,7 +157,13 @@ extension TodoList {
             }
             Section {
                 Button {
-                    viewModel.toggleSortByPriority()
+                    viewModel.toggleSortType()
+                    switch viewModel.sortType {
+                    case .priority:
+                        AnalyticsService.todoListSortByPriority()
+                    case .addition:
+                        AnalyticsService.todoListSortByCreationDate()
+                    }
                 } label: {
                     Label(
                         viewModel.sortType.descriptionOfNext,

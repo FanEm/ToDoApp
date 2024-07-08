@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FileCache
 
 // MARK: - CategoryCache
 final class CategoryCache: FileCache<Category> {

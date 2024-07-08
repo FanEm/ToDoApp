@@ -13,7 +13,7 @@ import Combine
 final class CalendarViewController: UIViewController {
 
     // MARK: - Private properties
-    private let calendarView: CalendarUIView
+    private let calendarView: CalendarUIView = CalendarUIView()
     private let viewModel: CalendarViewModel
 
     private var cancellables = Set<AnyCancellable>()
@@ -28,11 +28,7 @@ final class CalendarViewController: UIViewController {
     )
 
     // MARK: - Initializers
-    init(
-        view: CalendarUIView = CalendarUIView(),
-        viewModel: CalendarViewModel = CalendarViewModel()
-    ) {
-        self.calendarView = view
+    init(viewModel: CalendarViewModel = CalendarViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,6 +49,16 @@ final class CalendarViewController: UIViewController {
         setupBindings()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AnalyticsService.openCalendar()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        AnalyticsService.closeCalendar()
+    }
+
     // MARK: - Private methods
     private func configureView() {
         calendarView.delegate = self
@@ -70,7 +76,8 @@ final class CalendarViewController: UIViewController {
 
     private func reloadData() {
         calendarView.collectionView.reloadData()
-        calendarView.tableView.reloadData()
+        let visibleIndexPaths = calendarView.tableView.indexPathsForVisibleRows ?? []
+        calendarView.tableView.reloadRows(at: visibleIndexPaths, with: .none)
         guard !viewModel.data.isEmpty else { return }
         calendarView.collectionView.selectItem(
             at: selectedDate ?? IndexPath(row: 0, section: 0),
@@ -105,6 +112,7 @@ final class CalendarViewController: UIViewController {
 extension CalendarViewController: CalendarUIViewDelegate {
 
     func didTapButton(_ button: UIButton) {
+        AnalyticsService.calendarTapAddNew()
         let todoView = TodoView(
             viewModel: TodoViewModel(todoItem: TodoItem.empty)
         )
@@ -149,7 +157,8 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
                 image: UIImage(systemName: "checkmark.circle.fill"),
                 backgroundColor: .primaryGreen
             ) { [weak self] (_, _, completionHandler) in
-                self?.viewModel.toggleDone(true, at: indexPath, withDelay: 0.8)
+                self?.viewModel.toggleDone(true, at: indexPath)
+                AnalyticsService.calendarSwipeMarkAsCompleted(true)
                 completionHandler(true)
             }
             .build()
@@ -166,7 +175,8 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
                 image: UIImage(systemName: "x.circle.fill"),
                 backgroundColor: .primaryRed
             ) { [weak self] (_, _, completionHandler) in
-                self?.viewModel.toggleDone(false, at: indexPath, withDelay: 0.8)
+                self?.viewModel.toggleDone(false, at: indexPath)
+                AnalyticsService.calendarSwipeMarkAsCompleted(false)
                 completionHandler(true)
             }
             .build()

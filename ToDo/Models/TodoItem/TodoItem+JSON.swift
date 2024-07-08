@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FileCache
 
 // MARK: - Parse JSON
 extension TodoItem: FileCachableJson {

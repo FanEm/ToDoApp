@@ -7,6 +7,7 @@
 
 import UIKit
 
+@MainActor
 final class SwipeActionsConfigurationBuilder {
 
     private var actions: [UIContextualAction] = []

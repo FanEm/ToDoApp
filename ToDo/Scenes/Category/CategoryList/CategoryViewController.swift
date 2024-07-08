@@ -13,7 +13,7 @@ import Combine
 final class CategoryViewController: UIViewController {
 
     // MARK: - Private properties
-    private let categoryView: CategoryUIView
+    private let categoryView: CategoryUIView = CategoryUIView()
     private let categoryViewModel: CategoryViewModel
     private var category: Binding<Category?>?
 
@@ -36,11 +36,9 @@ final class CategoryViewController: UIViewController {
 
     // MARK: - Initializers
     init(
-        view: CategoryUIView = CategoryUIView(),
         category: Binding<Category?>?,
         categoryViewModel: CategoryViewModel = CategoryViewModel()
     ) {
-        self.categoryView = view
         self.categoryViewModel = categoryViewModel
         self.category = category
         super.init(nibName: nil, bundle: nil)
@@ -114,6 +112,10 @@ extension CategoryViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        defer {
+            AnalyticsService.todoViewCategory(category?.wrappedValue?.id)
+        }
+
         if selectedIndexPath == indexPath {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
             category?.wrappedValue = nil

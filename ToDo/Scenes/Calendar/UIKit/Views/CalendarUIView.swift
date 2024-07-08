@@ -8,6 +8,7 @@
 import UIKit
 
 // MARK: - CalendarUIViewDelegate
+@MainActor
 protocol CalendarUIViewDelegate: AnyObject {
     func didTapButton(_ button: UIButton)
 }

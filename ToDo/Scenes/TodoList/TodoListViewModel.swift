@@ -78,7 +78,7 @@ final class TodoListViewModel: ObservableObject {
         showCompleted.toggle()
     }
 
-    func toggleSortByPriority() {
+    func toggleSortType() {
         sortType = sortType == .addition ? .priority : .addition
     }
 

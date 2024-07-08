@@ -52,6 +52,7 @@ struct TodoView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
                         dismissIfNeeded()
+                        AnalyticsService.todoViewCancel()
                     } label: {
                         Text("cancel")
                             .font(.todoBody)
@@ -61,6 +62,7 @@ struct TodoView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         viewModel.saveItem()
+                        AnalyticsService.todoViewSave()
                         dismiss()
                     } label: {
                         Text("save")
@@ -207,6 +209,7 @@ extension TodoView {
     private var deleteButtonCell: some View {
         Button {
             viewModel.removeItem()
+            AnalyticsService.todoViewDelete(id: viewModel.todoItem.id)
             dismiss()
         } label: {
             Text("delete")
