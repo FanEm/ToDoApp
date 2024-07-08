@@ -12,7 +12,11 @@ import Combine
 final class TodoViewModel: ObservableObject {
 
     @Published var text: String
-    @Published var priority: TodoItem.Priority
+    @Published var priority: TodoItem.Priority {
+        didSet {
+            AnalyticsService.todoViewPriority(priority.rawValue)
+        }
+    }
     @Published var category: Category? {
         didSet {
             color = getColorFromCategory()
@@ -29,12 +33,14 @@ final class TodoViewModel: ObservableObject {
     @Published var selectedDeadline: Date = .nextDay {
         didSet {
             deadline = isDeadlineEnabled ? selectedDeadline.stripTime() : nil
+            AnalyticsService.todoViewDeadline(enabled: isDeadlineEnabled, date: deadline)
         }
     }
     @Published var isDeadlineEnabled: Bool {
         didSet {
             selectedDeadline = isDeadlineEnabled ? (todoItem.deadline ?? .nextDay) : .nextDay
             deadline = isDeadlineEnabled ? selectedDeadline.stripTime() : nil
+            AnalyticsService.todoViewDeadline(enabled: isDeadlineEnabled, date: deadline)
         }
     }
 
@@ -52,7 +58,7 @@ final class TodoViewModel: ObservableObject {
         todoItemCache.items[todoItem.id] == nil
     }
 
-    private let todoItem: TodoItem
+    let todoItem: TodoItem
     private let todoItemCache: TodoItemCache
     private let categoryCache: CategoryCache
 

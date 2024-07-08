@@ -79,17 +79,6 @@
         }
       }
     },
-    "category.name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name"
-          }
-        }
-      }
-    },
     "category.new" : {
       "extractionState" : "manual",
       "localizations" : {

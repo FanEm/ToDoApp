@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct ToDoApp: App {
+
+    init() {
+        Logger.setup()
+    }
+
     var body: some Scene {
         WindowGroup {
             TodoList()
         }
     }
+
 }

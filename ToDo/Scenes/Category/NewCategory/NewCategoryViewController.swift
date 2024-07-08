@@ -14,7 +14,7 @@ final class NewCategoryViewController: BaseScrollableViewController {
 
     // MARK: - Private properties
     @ObservedObject private var viewModel: NewCategoryViewModel
-    private let newCategoryView: NewCategoryUIView
+    private let newCategoryView: NewCategoryUIView = NewCategoryUIView()
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var saveButton = UIBarButtonItem(
@@ -32,11 +32,7 @@ final class NewCategoryViewController: BaseScrollableViewController {
     )
 
     // MARK: - Initializers
-    init(
-        view: NewCategoryUIView = NewCategoryUIView(),
-        viewModel: NewCategoryViewModel = NewCategoryViewModel()
-    ) {
-        self.newCategoryView = view
+    init(viewModel: NewCategoryViewModel = NewCategoryViewModel()) {
         self.viewModel = viewModel
         super.init(baseScrollableView: newCategoryView)
     }

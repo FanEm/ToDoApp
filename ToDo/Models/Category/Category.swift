@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FileCache
 
 // MARK: - Category
 struct Category: StringIdentifiable {

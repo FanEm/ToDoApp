@@ -26,12 +26,6 @@ final class CalendarViewModel: ObservableObject {
         todoItemCache.addItemAndSaveJson(todoItem.toggleDone(isDone))
     }
 
-    func toggleDone(_ isDone: Bool, at indexPath: IndexPath, withDelay delay: Double) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            self.toggleDone(isDone, at: indexPath)
-        }
-    }
-
     private func setupBindings() {
         todoItemCache.$items
             .sink { [weak self] newItems in

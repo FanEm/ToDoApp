@@ -8,6 +8,7 @@
 import UIKit
 
 // MARK: - NewCategoryUIViewDelegate
+@MainActor
 protocol NewCategoryUIViewDelegate: AnyObject {
     func didChangeTextField(text: String)
 }
