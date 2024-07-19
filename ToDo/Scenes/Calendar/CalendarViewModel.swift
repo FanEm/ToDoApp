@@ -7,37 +7,48 @@
 
 import Foundation
 import Combine
+import SwiftData
 
 // MARK: - CalendarViewModel
+@MainActor
 final class CalendarViewModel: ObservableObject {
 
     @Published var data: [(date: Date, events: [TodoItem])] = []
+    private var repository: TodoRepository
 
-    private var cancellables = Set<AnyCancellable>()
-    private let todoItemCache: TodoItemCache
+    // MARK: - Initializers
+    init(modelContext: ModelContext) {
+        self.repository = TodoRepository(
+            persistentStorage: PersistentStorage(modelContext: modelContext)
+        )
+    }
 
-    init(todoItemCache: TodoItemCache = TodoItemCache.shared) {
-        self.todoItemCache = todoItemCache
-        setupBindings()
+    // MARK: - Public methods
+    func fetch() {
+        do {
+            let items = try repository.fetchLocally()
+            updateData(items: items)
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
     }
 
     func toggleDone(_ isDone: Bool, at indexPath: IndexPath) {
-        let todoItem = data[indexPath.section].events[indexPath.row]
-        todoItemCache.addItemAndSaveJson(todoItem.toggleDone(isDone))
+        Task {
+            do {
+                let todoItem = data[indexPath.section].events[indexPath.row]
+                try await repository.toggleDone(isDone, todoItem: todoItem)
+            }
+        }
     }
 
-    private func setupBindings() {
-        todoItemCache.$items
-            .sink { [weak self] newItems in
-                var eventsByDate: [Date: [TodoItem]] = [:]
-                newItems.values.forEach {
-                    eventsByDate[$0.deadline ?? .distantFuture, default: []].append($0)
-                }
-                self?.data = eventsByDate
-                    .map { (date: $0, events: $1) }
-                    .sorted { $0.date < $1.date }
-            }
-            .store(in: &cancellables)
+    // MARK: - Private methods
+    private func updateData(items: [TodoItem]) {
+        var eventsByDate: [Date: [TodoItem]] = [:]
+        items.forEach { eventsByDate[$0.deadline ?? .distantFuture, default: []].append($0)}
+        data = eventsByDate
+            .map { (date: $0, events: $1.sorted { $0.createdAt < $1.createdAt }) }
+            .sorted { $0.date < $1.date }
     }
 
 }

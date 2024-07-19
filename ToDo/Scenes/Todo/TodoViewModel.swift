@@ -6,15 +6,17 @@
 //
 
 import SwiftUI
-import Combine
+import SwiftData
 
 // MARK: - TodoViewModel
+@MainActor
 final class TodoViewModel: ObservableObject {
 
+    // MARK: - Public properties
     @Published var text: String
-    @Published var priority: TodoItem.Priority {
+    @Published var importance: Importance {
         didSet {
-            AnalyticsService.todoViewPriority(priority.rawValue)
+            AnalyticsService.todoViewImportance(importance.rawValue)
         }
     }
     @Published var category: Category? {
@@ -48,61 +50,79 @@ final class TodoViewModel: ObservableObject {
         text != "" &&
         (
             text != todoItem.text ||
-            priority != todoItem.priority ||
+            importance != todoItem.importance ||
             deadline != todoItem.deadline ||
-            category?.id != todoItem.categoryId
+            category != todoItem.category
         )
     }
 
     var isItemNew: Bool {
-        todoItemCache.items[todoItem.id] == nil
+        do {
+            let id = todoItem.id
+            return try repository.fetchCountLocally(predicate: #Predicate { $0.id == id }) == 0
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+            return false
+        }
     }
 
     let todoItem: TodoItem
-    private let todoItemCache: TodoItemCache
-    private let categoryCache: CategoryCache
 
-    private var cancellables = Set<AnyCancellable>()
+    // MARK: - Private properties
+    private var repository: TodoRepository
+    private let categoryPersistentStorage: PersistentStorage<Category>
 
+    // MARK: - Initializers
     init(
-        todoItem: TodoItem,
-        todoItemCache: TodoItemCache = TodoItemCache.shared,
-        categoryCache: CategoryCache = CategoryCache.shared
+        modelContext: ModelContext,
+        todoItem: TodoItem
     ) {
+        self.repository = TodoRepository(
+            persistentStorage: PersistentStorage(modelContext: modelContext)
+        )
+        self.categoryPersistentStorage = PersistentStorage(modelContext: modelContext)
         self.todoItem = todoItem
-        self.todoItemCache = todoItemCache
-        self.categoryCache = categoryCache
         self.text = todoItem.text
-        self.priority = todoItem.priority
+        self.importance = todoItem.importance
         self.deadline = todoItem.deadline
         self.modifiedAt = todoItem.modifiedAt
         self.isDeadlineEnabled = todoItem.deadline != nil
         self.selectedDeadline = todoItem.deadline ?? .nextDay
-        if let categoryId = todoItem.categoryId {
-            category = categoryCache.items[categoryId]
-            if let hex = category?.color {
-                self.color = Color(hex: hex)
-            }
+        self.category = todoItem.category
+        if let hex = category?.color {
+            self.color = Color(hex: hex)
         }
     }
 
-    func saveItem() {
-        todoItemCache.addItemAndSaveJson(
-            todoItem.copyWith(
-                text: text,
-                priority: priority,
-                deadline: deadline,
-                modifiedAt: modifiedAt,
-                color: category?.color,
-                categoryId: category?.id
-            )
-        )
+    // MARK: - Public methods
+    func saveItem() async {
+        let itemNew = isItemNew
+        todoItem.text = text
+        todoItem.importance = importance
+        todoItem.deadline = deadline
+        todoItem.category = category
+        todoItem.modifiedAt = .now
+        todoItem.color = color?.hex
+        do {
+            if itemNew {
+                try await repository.addTodoItem(todoItem)
+            } else {
+                try await repository.editTodoItem(todoItem)
+            }
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
     }
 
-    func removeItem() {
-        todoItemCache.removeItemAndSaveJson(id: todoItem.id)
+    func removeItem() async {
+        do {
+            try await repository.deleteTodoItem(todoItem)
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
     }
 
+    // MARK: - Private methods
     private func getColorFromCategory() -> Color? {
         guard let hex = category?.color else { return nil }
         return Color(hex: hex)

@@ -7,35 +7,56 @@
 
 import Foundation
 
+final class URLSessionDataTaskManager: @unchecked Sendable {
+
+    private var task: URLSessionDataTask?
+    private var isCancelled: Bool = false
+    private let queue = DispatchQueue(label: "syncQueue")
+
+    func cancel() {
+        queue.async {
+            self.isCancelled = true
+            self.task?.cancel()
+        }
+    }
+
+    func set(_ dataTask: URLSessionDataTask) {
+        queue.async {
+            if self.isCancelled {
+                dataTask.cancel()
+            } else {
+                self.task = dataTask
+                dataTask.resume()
+            }
+        }
+    }
+
+}
+
 extension URLSession {
 
     func dataTask(for urlRequest: URLRequest) async throws -> (Data, URLResponse) {
-        var task: URLSessionDataTask?
+        let taskManager = URLSessionDataTaskManager()
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
-                task = dataTask(with: urlRequest) { data, response, error in
-                    if Task.isCancelled {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
+                assert(!Thread.isMainThread)
+                let task = dataTask(with: urlRequest) { data, response, error in
+                    assert(!Thread.isMainThread)
                     if let error {
-                        continuation.resume(throwing: error)
-                        return
+                        if (error as NSError).code == NSURLErrorCancelled {
+                            return continuation.resume(throwing: CancellationError())
+                        }
+                        return continuation.resume(throwing: error)
                     }
                     if let data, let response {
-                        continuation.resume(returning: (data, response))
-                        return
+                        return continuation.resume(returning: (data, response))
                     }
                     continuation.resume(throwing: URLError(.unknown))
                 }
-                if Task.isCancelled {
-                    continuation.resume(throwing: CancellationError())
-                    return
-                }
-                task?.resume()
+                taskManager.set(task)
             }
-        } onCancel: { [weak task] in
-            task?.cancel()
+        } onCancel: {
+            taskManager.cancel()
         }
     }
 

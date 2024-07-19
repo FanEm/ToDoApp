@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import Combine
+import SwiftData
 
 // MARK: - CategoryViewController
 final class CategoryViewController: UIViewController {
@@ -15,6 +16,7 @@ final class CategoryViewController: UIViewController {
     // MARK: - Private properties
     private let categoryView: CategoryUIView = CategoryUIView()
     private let categoryViewModel: CategoryViewModel
+    private let modelContext: ModelContext
     private var category: Binding<Category?>?
 
     private var selectedIndexPath: IndexPath?
@@ -37,9 +39,10 @@ final class CategoryViewController: UIViewController {
     // MARK: - Initializers
     init(
         category: Binding<Category?>?,
-        categoryViewModel: CategoryViewModel = CategoryViewModel()
+        modelContext: ModelContext
     ) {
-        self.categoryViewModel = categoryViewModel
+        self.modelContext = modelContext
+        self.categoryViewModel = CategoryViewModel(modelContext: modelContext)
         self.category = category
         super.init(nibName: nil, bundle: nil)
     }
@@ -60,6 +63,11 @@ final class CategoryViewController: UIViewController {
         setupBindings()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        categoryViewModel.fetch()
+    }
+
     // MARK: - Private methods
     private func configureView() {
         categoryView.tableView.delegate = self
@@ -73,7 +81,10 @@ final class CategoryViewController: UIViewController {
     }
 
     @objc private func addButtonTapped() {
-        navigationController?.pushViewController(NewCategoryViewController(), animated: true)
+        navigationController?.pushViewController(
+            NewCategoryViewController(modelContext: modelContext),
+            animated: true
+        )
     }
 
     @objc private func closeButtonTapped() {
@@ -95,12 +106,12 @@ final class CategoryViewController: UIViewController {
 extension CategoryViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        categoryViewModel.categoriesList.count
+        categoryViewModel.categories.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: CategoryTableViewCell = tableView.dequeueReusableCell()
-        let category = categoryViewModel.categoriesList[indexPath.row]
+        let category = categoryViewModel.categories[indexPath.row]
         cell.configureCell(category: category)
         if self.category?.wrappedValue == category {
             cell.accessoryType = .checkmark
@@ -127,7 +138,7 @@ extension CategoryViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.cellForRow(at: previouslySelectedIndexPath)?.accessoryType = .none
         }
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        category?.wrappedValue = categoryViewModel.categoriesList[indexPath.row]
+        category?.wrappedValue = categoryViewModel.categories[indexPath.row]
         selectedIndexPath = indexPath
     }
 

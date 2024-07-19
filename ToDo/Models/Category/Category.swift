@@ -7,13 +7,15 @@
 
 import Foundation
 import FileCache
+import SwiftData
 
 // MARK: - Category
-struct Category: StringIdentifiable {
+@Model
+final class Category: StringIdentifiable {
 
-    let id: String
-    let text: String
-    let color: String?
+    @Attribute(.unique) let id: String
+    var text: String
+    var color: String?
     let createdAt: Date
 
     init(id: String = UUID().uuidString, text: String = "", color: String? = nil, createdAt: Date = .now) {
@@ -32,7 +34,7 @@ struct Category: StringIdentifiable {
 // MARK: - Equatable
 extension Category: Equatable {
 
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    static func == (lhs: Category, rhs: Category) -> Bool {
         lhs.id == rhs.id &&
         lhs.text == rhs.text &&
         lhs.color == rhs.color &&

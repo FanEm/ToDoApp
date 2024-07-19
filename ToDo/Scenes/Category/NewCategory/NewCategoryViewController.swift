@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import Combine
+import SwiftData
 
 // MARK: - NewCategoryViewController
 final class NewCategoryViewController: BaseScrollableViewController {
@@ -32,8 +33,8 @@ final class NewCategoryViewController: BaseScrollableViewController {
     )
 
     // MARK: - Initializers
-    init(viewModel: NewCategoryViewModel = NewCategoryViewModel()) {
-        self.viewModel = viewModel
+    init(modelContext: ModelContext) {
+        self.viewModel = NewCategoryViewModel(modelContext: modelContext)
         super.init(baseScrollableView: newCategoryView)
     }
 

@@ -12,8 +12,18 @@ final class CategoryCacheTests: XCTestCase {
 
     private enum Constants {
         static let date = Date(timeIntervalSince1970: 1718465615)
-        static let item1 = Category(id: "1", text: "category1", color: "#ffffff", createdAt: date)
-        static let item2 = Category(id: "2", text: "category2", color: "#000000", createdAt: date)
+        nonisolated(unsafe) static let item1 = Category(
+            id: "1",
+            text: "category1",
+            color: "#ffffff",
+            createdAt: date
+        )
+        nonisolated(unsafe) static let item2 = Category(
+            id: "2",
+            text: "category2",
+            color: "#000000",
+            createdAt: date
+        )
         enum FileName {
             static let json = "categories.json"
             static let csv = "categories.csv"

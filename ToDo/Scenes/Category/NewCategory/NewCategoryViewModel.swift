@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // MARK: - NewCategoryViewModel
 final class NewCategoryViewModel: ObservableObject {
@@ -24,20 +25,22 @@ final class NewCategoryViewModel: ObservableObject {
     }
 
     private let category: Category
-    private let categoryCache: CategoryCache
+    private let persistentStorage: PersistentStorage<Category>
 
     init(
-        category: Category = Category(),
-        categoryCache: CategoryCache = CategoryCache.shared
+        modelContext: ModelContext,
+        category: Category = Category()
     ) {
         self.category = category
-        self.categoryCache = categoryCache
         self.text = category.text
         self.color = category.color == nil ? nil : Color(hex: category.color!)
+        self.persistentStorage = PersistentStorage(modelContext: modelContext)
     }
 
     func saveItem() {
-        categoryCache.addItemAndSaveJson(Category(id: category.id, text: text, color: color?.hex))
+        category.text = text
+        category.color = color?.hex
+        persistentStorage.insert(category)
     }
 
 }
