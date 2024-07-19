@@ -60,13 +60,13 @@ extension AnalyticsService {
         )
     }
 
-    static func todoListSortByPriority(
+    static func todoListSortByImportance(
         file: StaticString = #file,
         function: StaticString = #function,
         line: UInt = #line
     ) {
         report(
-            eventItem: AnalyticEventItem(event: .click, screen: .todoList, item: .sortByPriority),
+            eventItem: AnalyticEventItem(event: .click, screen: .todoList, item: .sortByImportance),
             file: file,
             function: function,
             line: line
@@ -330,8 +330,8 @@ extension AnalyticsService {
         )
     }
 
-    static func todoViewPriority(
-        _ priority: String,
+    static func todoViewImportance(
+        _ importance: String,
         file: StaticString = #file,
         function: StaticString = #function,
         line: UInt = #line
@@ -340,8 +340,8 @@ extension AnalyticsService {
             eventItem: AnalyticEventItem(
                 event: .click,
                 screen: .todoView,
-                item: .priority,
-                params: ["priority": priority]
+                item: .importance,
+                params: ["importance": importance]
             ),
             file: file,
             function: function,

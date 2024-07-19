@@ -12,17 +12,17 @@ import FileCache
 extension TodoItem: FileCachableCsv {
 
     var csv: String {
-        "\(id),\(text),\(priority == .medium ? " " : priority.rawValue)," +
+        "\(id),\(text),\(importance == .basic ? " " : importance.rawValue)," +
         "\(deadline == nil ? " " : String(deadline!.timeIntervalSince1970))," +
         "\(String(isDone)),\(String(createdAt.timeIntervalSince1970))," +
         "\(modifiedAt == nil ? " " : String(modifiedAt!.timeIntervalSince1970))," +
-        "\(color == nil ? " " : color!),\(categoryId == nil ? " " : categoryId!)"
+        "\(color == nil ? " " : color!),\(category == nil ? " " : category!.id)"
     }
 
     static var csvHeader: [String] {
         [
-            Keys.id, Keys.text, Keys.priority, Keys.deadline, Keys.isDone,
-            Keys.createdAt, Keys.modifiedAt, Keys.color, Keys.categoryId
+            Keys.id, Keys.text, Keys.importance, Keys.deadline, Keys.isDone,
+            Keys.createdAt, Keys.modifiedAt, Keys.color, Keys.category
         ].map { $0.rawValue }
     }
 
@@ -45,24 +45,24 @@ extension TodoItem: FileCachableCsv {
         }
 
         let createdAt = Date(timeIntervalSince1970: createdAtTimeInterval)
-        let priority = Priority(rawValue: dict[Keys.priority.rawValue] ?? "") ?? .medium
+        let importance = Importance(rawValue: dict[Keys.importance.rawValue] ?? "") ?? .basic
         let deadline = TimeInterval(dict[Keys.deadline.rawValue] ?? "")
                             .flatMap { Date(timeIntervalSince1970: $0) }
         let modifiedAt = TimeInterval(dict[Keys.modifiedAt.rawValue] ?? "")
                             .flatMap { Date(timeIntervalSince1970: $0) }
         let color = dict[Keys.color.rawValue] == " " ? nil : dict[Keys.color.rawValue]
-        let categoryId = dict[Keys.categoryId.rawValue] == " " ? nil : dict[Keys.categoryId.rawValue]
+        let categoryId = dict[Keys.category.rawValue] == " " ? nil : dict[Keys.category.rawValue]
 
         return TodoItem(
             id: id,
             text: text,
-            priority: priority,
+            importance: importance,
             deadline: deadline,
             isDone: isDone,
             createdAt: createdAt,
             modifiedAt: modifiedAt,
             color: color,
-            categoryId: categoryId
+            category: categoryId == nil ? nil : Category(id: categoryId!)
         )
     }
 

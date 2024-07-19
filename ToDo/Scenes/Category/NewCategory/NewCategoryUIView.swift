@@ -118,7 +118,7 @@ final class NewCategoryUIView: UIView, BaseScrollableView {
 
 }
 
-// - MARK: UITextFieldDelegate
+// MARK: - UITextFieldDelegate
 extension NewCategoryUIView: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

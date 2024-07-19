@@ -53,7 +53,7 @@ extension AnalyticEventItem {
     enum EventItem: String {
         case showCompleted
         case hideCompleted
-        case sortByPriority
+        case sortByImportance
         case sortByCreationDate
         case markAsCompleted
         case markAsIncompleted
@@ -63,7 +63,7 @@ extension AnalyticEventItem {
         case edit
         case calendar
         case deadline
-        case priority
+        case importance
         case category
         case cancel
         case save

@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // MARK: - TodoList
 struct TodoList: View {
 
-    @StateObject var viewModel = TodoListViewModel()
+    @StateObject var viewModel: TodoListViewModel
     @FocusState private var isFocused
+    private let modelContext: ModelContext
+
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+        let viewModel = TodoListViewModel(modelContext: modelContext)
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
 
     var body: some View {
         NavigationStack {
@@ -27,16 +35,22 @@ struct TodoList: View {
                                 AnalyticsService.todoListTapEditEvent()
                             },
                             onRadioButtonTap: {
-                                viewModel.toggleDone(todoItem)
+                                Task {
+                                    await viewModel.toggleDone(todoItem)
+                                }
                                 AnalyticsService.todoListTapMarkAsCompleted(!todoItem.isDone)
                             }
                         )
                         .markableAsDone(isDone: todoItem.isDone) {
-                            viewModel.toggleDone(todoItem)
-                            AnalyticsService.todoListSwipeMarkAsCompleted(!todoItem.isDone)
+                            Task {
+                                await viewModel.toggleDone(todoItem)
+                            }
+                            AnalyticsService.todoListSwipeMarkAsCompleted(todoItem.isDone)
                         }
                         .deletable {
-                            viewModel.delete(todoItem)
+                            Task {
+                                await viewModel.delete(todoItem)
+                            }
                             AnalyticsService.todoListSwipeToDelete()
                         }
                         .withInfo {
@@ -54,6 +68,11 @@ struct TodoList: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
+                    if viewModel.isLoading {
+                        ProgressView()
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
                     calendarButton
                 }
             }
@@ -62,17 +81,26 @@ struct TodoList: View {
             }
             .sheet(isPresented: $viewModel.todoViewPresented) {
                 TodoView(
-                    viewModel: TodoViewModel(
-                        todoItem: viewModel.todoItemToOpen
-                    )
+                    modelContext: modelContext,
+                    todoItem: viewModel.todoItemToOpen
                 )
             }
             .fullScreenCover(isPresented: $viewModel.calendarViewPresented) {
-                CalendarView()
+                CalendarView(modelContext: modelContext)
                     .ignoresSafeArea()
             }
             .onAppear {
+                Task {
+                    await viewModel.fetch()
+                }
                 AnalyticsService.openTodoList()
+            }
+            .onReceive(
+                NotificationCenter.default.publisher(
+                    for: Notification.Name.NSManagedObjectContextWillSave
+                )
+            ) { _ in
+                viewModel.fetchLocally()
             }
         }
     }
@@ -107,9 +135,11 @@ extension TodoList {
         .onSubmit {
             isFocused = false
             if !viewModel.newTodo.isEmpty {
-                viewModel.addItem(TodoItem(text: viewModel.newTodo))
-                viewModel.newTodo = ""
-                isFocused = true
+                Task {
+                    await viewModel.addItem(TodoItem(text: viewModel.newTodo))
+                    viewModel.newTodo = ""
+                    isFocused = true
+                }
                 AnalyticsService.todoListTapQuickAddNewEvent()
             }
         }
@@ -159,8 +189,8 @@ extension TodoList {
                 Button {
                     viewModel.toggleSortType()
                     switch viewModel.sortType {
-                    case .priority:
-                        AnalyticsService.todoListSortByPriority()
+                    case .importance:
+                        AnalyticsService.todoListSortByImportance()
                     case .addition:
                         AnalyticsService.todoListSortByCreationDate()
                     }
@@ -183,5 +213,13 @@ extension TodoList {
 
 // MARK: - Preview
 #Preview {
-    TodoList()
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: TodoItem.self, configurations: config)
+        let context = container.mainContext
+        context.insert(TodoItem(text: "Test"))
+        return TodoList(modelContext: context)
+    } catch {
+        fatalError()
+    }
 }

@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CalendarView: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = UINavigationController
 
+    var modelContext: ModelContext
+
     func makeUIViewController(context: Context) -> UINavigationController {
-        UINavigationController(rootViewController: CalendarViewController())
+        UINavigationController(rootViewController: CalendarViewController(modelContext: modelContext))
     }
 
     func updateUIViewController(
@@ -23,6 +26,14 @@ struct CalendarView: UIViewControllerRepresentable {
 }
 
 #Preview {
-    CalendarView()
-        .ignoresSafeArea()
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: TodoItem.self, configurations: config)
+        let context = container.mainContext
+        context.insert(TodoItem(text: "Test"))
+        return CalendarView(modelContext: context)
+            .ignoresSafeArea()
+    } catch {
+        fatalError()
+    }
 }

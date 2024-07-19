@@ -6,18 +6,27 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct ToDoApp: App {
 
-    init() {
-        Logger.setup()
-    }
+    let container: ModelContainer
 
     var body: some Scene {
         WindowGroup {
-            TodoList()
+            TodoList(modelContext: container.mainContext)
+                .modelContainer(container)
         }
+    }
+
+    init() {
+        do {
+            container = try ModelContainer(for: TodoItem.self, Category.self)
+        } catch {
+            fatalError("Failed to create ModelContainer for TodoItemModel")
+        }
+        Logger.setup()
     }
 
 }

@@ -27,8 +27,8 @@ struct TodoCell: View {
                     }
                 VStack(alignment: .leading) {
                     HStack {
-                        if let priorityImage {
-                            priorityImage
+                        if let importanceImage {
+                            importanceImage
                         }
                         text
                     }
@@ -70,20 +70,20 @@ extension TodoCell {
         if todoItem.isDone {
             return Image(.radioButtonOn)
         }
-        if todoItem.priority == .high {
-            return Image(.radioButtonHighPriority)
+        if todoItem.importance == .important {
+            return Image(.radioButtonHighImportance)
         }
         return Image(.radioButtonOff)
     }
 
-    private var priorityImage: Image? {
-        switch todoItem.priority {
+    private var importanceImage: Image? {
+        switch todoItem.importance {
         case .low:
-            Image(.priorityLow)
-        case .medium:
+            Image(.importanceLow)
+        case .basic:
             nil
-        case .high:
-            Image(.priorityHigh)
+        case .important:
+            Image(.importanceHigh)
         }
     }
 
@@ -107,7 +107,7 @@ extension TodoCell {
     TodoCell(
         todoItem: TodoItem(
             text: "Text",
-            priority: .high,
+            importance: .important,
             deadline: .now,
             isDone: false,
             createdAt: .now

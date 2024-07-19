@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // MARK: - TodoView
 struct TodoView: View {
@@ -13,6 +14,13 @@ struct TodoView: View {
     @StateObject var viewModel: TodoViewModel
     @FocusState private var isFocused
     @Environment(\.dismiss) var dismiss
+    private let modelContext: ModelContext
+
+    init(modelContext: ModelContext, todoItem: TodoItem) {
+        self.modelContext  = modelContext
+        let viewModel = TodoViewModel(modelContext: modelContext, todoItem: todoItem)
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
 
     var body: some View {
         NavigationStack {
@@ -22,7 +30,7 @@ struct TodoView: View {
                         newEventTextView
                     }
                     Section {
-                        priorityCell
+                        importanceCell
                         categoryCell
                         deadlineCell
                         if viewModel.isDeadlineEnabled {
@@ -44,7 +52,7 @@ struct TodoView: View {
                 confirmation
             }
             .sheet(isPresented: $viewModel.isCategoryViewShown) {
-                CategoryView(category: $viewModel.category)
+                CategoryView(modelContext: modelContext, category: $viewModel.category)
                     .toolbar(.hidden, for: .navigationBar)
                     .ignoresSafeArea()
             }
@@ -61,7 +69,9 @@ struct TodoView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        viewModel.saveItem()
+                        Task {
+                             await viewModel.saveItem()
+                        }
                         AnalyticsService.todoViewSave()
                         dismiss()
                     } label: {
@@ -124,15 +134,15 @@ extension TodoView {
         )
     }
 
-    private var priorityCell: some View {
+    private var importanceCell: some View {
         HStack {
-            Text("priority")
+            Text("importance")
                 .font(.todoBody)
                 .foregroundStyle(.textPrimary)
                 .truncationMode(.tail)
             Spacer()
-            Picker("", selection: $viewModel.priority) {
-                ForEach(TodoItem.Priority.allCases) { $0.symbol }
+            Picker("", selection: $viewModel.importance) {
+                ForEach(Importance.allCases) { $0.symbol }
             }
             .frame(maxWidth: 150)
             .pickerStyle(.segmented)
@@ -208,7 +218,9 @@ extension TodoView {
 
     private var deleteButtonCell: some View {
         Button {
-            viewModel.removeItem()
+            Task {
+                await viewModel.removeItem()
+            }
             AnalyticsService.todoViewDelete(id: viewModel.todoItem.id)
             dismiss()
         } label: {
@@ -224,17 +236,24 @@ extension TodoView {
 
 // MARK: - Preview
 #Preview {
-    TodoView(
-        viewModel: TodoViewModel(
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: TodoItem.self, configurations: config)
+        let context = container.mainContext
+        context.insert(TodoItem(text: "Test"))
+        return TodoView(
+            modelContext: context,
             todoItem: TodoItem(
                 text: "Text",
-                priority: .high,
+                importance: .important,
                 deadline: .now,
                 isDone: false,
                 createdAt: .now,
                 color: nil,
-                categoryId: nil
+                category: nil
             )
         )
-    )
+    } catch {
+        fatalError()
+    }
 }

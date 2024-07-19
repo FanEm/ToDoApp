@@ -12,15 +12,20 @@ final class TodoItemCacheTests: XCTestCase {
 
     private enum Constants {
         static let date = Date(timeIntervalSince1970: 1718465615)
-        static let item1 = TodoItem(
+        nonisolated(unsafe) static let item1 = TodoItem(
             text: "item1",
-            priority: .low,
+            importance: .low,
             deadline: date,
             isDone: false,
             createdAt: date,
             modifiedAt: date
         )
-        static let item2 = TodoItem(text: "item2", priority: .medium, isDone: true, createdAt: date)
+        nonisolated(unsafe) static let item2 = TodoItem(
+            text: "item2",
+            importance: .basic,
+            isDone: true,
+            createdAt: date
+        )
         enum FileName {
             static let json = "items.json"
             static let csv = "items.csv"

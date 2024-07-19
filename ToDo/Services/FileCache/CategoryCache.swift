@@ -9,9 +9,10 @@ import SwiftUI
 import FileCache
 
 // MARK: - CategoryCache
+@available(*, deprecated)
 final class CategoryCache: FileCache<Category> {
 
-    static let shared = CategoryCache()
+    nonisolated(unsafe) static let shared = CategoryCache()
 
     private let defaultCategories: [Category] = [
         Category(

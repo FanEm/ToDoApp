@@ -16,27 +16,25 @@ final class TodoItemTests: XCTestCase {
         static let text = "Text"
         static let ts: TimeInterval = 1718465615
         static let date = Date(timeIntervalSince1970: ts)
-        static let priority: TodoItem.Priority = .high
+        static let importance: Importance = .important
         static let isDone = false
         static let color: String? = "#ffffff"
-        static let categoryId: String? = "ID-1"
 
         enum TodoItems {
-            static let full = TodoItem(
+            nonisolated static let full = TodoItem(
                 id: id,
                 text: text,
-                priority: priority,
+                importance: importance,
                 deadline: date,
                 isDone: isDone,
                 createdAt: date,
                 modifiedAt: date,
-                color: color,
-                categoryId: categoryId
+                color: color
             )
-            static let onlyRequired = TodoItem(
+            nonisolated static let onlyRequired = TodoItem(
                 id: id,
                 text: text,
-                priority: .medium,
+                importance: .basic,
                 isDone: isDone,
                 createdAt: date
             )
@@ -47,29 +45,28 @@ final class TodoItemTests: XCTestCase {
         let todoItem = TodoItem(
             id: Constants.id,
             text: Constants.text,
-            priority: Constants.priority,
+            importance: Constants.importance,
             deadline: Constants.date,
             isDone: Constants.isDone,
             createdAt: Constants.date,
             modifiedAt: Constants.date,
-            color: Constants.color,
-            categoryId: Constants.categoryId
+            color: Constants.color
         )
         XCTAssertEqual(todoItem.id, Constants.id)
         XCTAssertEqual(todoItem.text, Constants.text)
-        XCTAssertEqual(todoItem.priority, Constants.priority)
+        XCTAssertEqual(todoItem.importance, Constants.importance)
         XCTAssertEqual(todoItem.deadline, Constants.date)
         XCTAssertFalse(todoItem.isDone)
         XCTAssertEqual(todoItem.createdAt, Constants.date)
         XCTAssertEqual(todoItem.modifiedAt, Constants.date)
         XCTAssertEqual(todoItem.color, Constants.color)
-        XCTAssertEqual(todoItem.categoryId, Constants.categoryId)
+        XCTAssertNil(todoItem.category)
     }
 
     func testInitWithDefaults() {
         let todoItem = TodoItem(
             text: Constants.text,
-            priority: Constants.priority,
+            importance: Constants.importance,
             isDone: true,
             createdAt: Constants.date
         )
@@ -77,13 +74,13 @@ final class TodoItemTests: XCTestCase {
         XCTAssertNotNil(todoItem.id)
         XCTAssertNotNil(UUID(uuidString: todoItem.id))
         XCTAssertEqual(todoItem.text, Constants.text)
-        XCTAssertEqual(todoItem.priority, Constants.priority)
+        XCTAssertEqual(todoItem.importance, Constants.importance)
         XCTAssertTrue(todoItem.isDone)
         XCTAssertNil(todoItem.deadline)
         XCTAssertEqual(todoItem.createdAt, Constants.date)
         XCTAssertNil(todoItem.modifiedAt)
         XCTAssertNil(todoItem.color)
-        XCTAssertNil(todoItem.categoryId)
+        XCTAssertNil(todoItem.category)
     }
 
     func testJsonParse() {
@@ -92,12 +89,11 @@ final class TodoItemTests: XCTestCase {
             "id": "\(Constants.id)",
             "text": "\(Constants.text)",
             "is_done": \(Constants.isDone),
-            "priority": "\(Constants.priority.rawValue)",
+            "importance": "\(Constants.importance.rawValue)",
             "deadline": \(Constants.ts),
             "created_at": \(Constants.ts),
             "modified_at": \(Constants.ts),
-            "color": "\(Constants.color!)",
-            "category_id": "\(Constants.categoryId!)"
+            "color": "\(Constants.color!)"
         }
         """
         testJsonParse(todoItem: Constants.TodoItems.full, jsonString: jsonString)
@@ -120,13 +116,12 @@ final class TodoItemTests: XCTestCase {
         let todoItemDict: [String: Any] = [
             TodoItem.Keys.id.rawValue: Constants.id,
             TodoItem.Keys.text.rawValue: Constants.text,
-            TodoItem.Keys.priority.rawValue: Constants.priority.rawValue,
+            TodoItem.Keys.importance.rawValue: Constants.importance.rawValue,
             TodoItem.Keys.deadline.rawValue: Constants.ts,
             TodoItem.Keys.isDone.rawValue: Constants.isDone,
             TodoItem.Keys.modifiedAt.rawValue: Constants.ts,
             TodoItem.Keys.createdAt.rawValue: Constants.ts,
-            TodoItem.Keys.color.rawValue: Constants.color!,
-            TodoItem.Keys.categoryId.rawValue: Constants.categoryId!
+            TodoItem.Keys.color.rawValue: Constants.color!
         ]
         guard let todoItemJson = todoItem.json as? [String: Any] else {
             XCTFail("todoItemJson is not [String: Any]")
@@ -152,8 +147,8 @@ final class TodoItemTests: XCTestCase {
 
     func testCSVParse() {
         let todoItem = Constants.TodoItems.full
-        let csvString = "\(Constants.id),\(Constants.text),\(Constants.priority.rawValue)," +
-        "\(Constants.ts),\(Constants.isDone),\(Constants.ts),\(Constants.ts),\(Constants.color!),\(Constants.categoryId!)"
+        let csvString = "\(Constants.id),\(Constants.text),\(Constants.importance.rawValue)," +
+        "\(Constants.ts),\(Constants.isDone),\(Constants.ts),\(Constants.ts),\(Constants.color!)"
         testCSVParse(todoItem: todoItem, csvString: csvString)
     }
 
@@ -165,8 +160,8 @@ final class TodoItemTests: XCTestCase {
 
     func testCSVCreation() {
         let todoItem = Constants.TodoItems.full
-        let csvString = "\(Constants.id),\(Constants.text),\(Constants.priority.rawValue)," +
-        "\(Constants.ts),\(Constants.isDone),\(Constants.ts),\(Constants.ts),\(Constants.color!),\(Constants.categoryId!)"
+        let csvString = "\(Constants.id),\(Constants.text),\(Constants.importance.rawValue)," +
+        "\(Constants.ts),\(Constants.isDone),\(Constants.ts),\(Constants.ts),\(Constants.color!), "
         let todoItemCSV = todoItem.csv
         XCTAssertEqual(todoItemCSV, csvString)
     }
@@ -182,7 +177,7 @@ final class TodoItemTests: XCTestCase {
     private func areDictsEqual(_ dict1: [String: Any], _ dict2: [String: Any]) -> Bool {
         return dict1[TodoItem.Keys.id.rawValue] as? String == dict2[TodoItem.Keys.id.rawValue] as? String &&
             dict1[TodoItem.Keys.text.rawValue] as? String == dict2[TodoItem.Keys.text.rawValue] as? String &&
-            dict1[TodoItem.Keys.priority.rawValue] as? String == dict2[TodoItem.Keys.priority.rawValue] as? String &&
+            dict1[TodoItem.Keys.importance.rawValue] as? String == dict2[TodoItem.Keys.importance.rawValue] as? String &&
             dict1[TodoItem.Keys.isDone.rawValue] as? Bool == dict2[TodoItem.Keys.isDone.rawValue] as? Bool &&
             dict1[TodoItem.Keys.deadline.rawValue] as? TimeInterval == dict2[TodoItem.Keys.deadline.rawValue] as? TimeInterval &&
             dict1[TodoItem.Keys.modifiedAt.rawValue] as? TimeInterval == dict2[TodoItem.Keys.modifiedAt.rawValue] as? TimeInterval &&

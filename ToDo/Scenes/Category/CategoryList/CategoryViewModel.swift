@@ -7,34 +7,36 @@
 
 import SwiftUI
 import Combine
+import SwiftData
 
 // MARK: - CategoryViewModel
 final class CategoryViewModel: ObservableObject {
 
-    @Published var categories: [String: Category] = [:]
+    @Published var categories: [Category] = []
 
-    var categoriesList: [Category] {
-        Array(categories.values).sorted { $0.createdAt < $1.createdAt }
+    private let persistentStorage: PersistentStorage<Category>
+
+    init(modelContext: ModelContext) {
+        self.persistentStorage = PersistentStorage(modelContext: modelContext)
+        self.addDefaultCategoriesIfNeeded()
     }
 
-    private let categoryCache: CategoryCache
-    private var cancellables = Set<AnyCancellable>()
-
-    init(categoryCache: CategoryCache = CategoryCache.shared) {
-        self.categoryCache = categoryCache
-        setupBindings()
+    func fetch() {
+        do {
+            categories = try persistentStorage.fetch(
+                sortBy: [.init(\.createdAt)]
+            )
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
     }
 
-    func removeItem(id: String) {
-        categoryCache.removeItemAndSaveJson(id: id)
-    }
-
-    private func setupBindings() {
-        categoryCache.$items
-            .sink { [weak self] newItems in
-                self?.categories = newItems
-            }
-            .store(in: &cancellables)
+    private func addDefaultCategoriesIfNeeded() {
+        guard !StorageService.shared.defaultCategoriesAdded else { return }
+        for category in GlobalConstants.defaultCategories {
+            persistentStorage.insert(category)
+        }
+        StorageService.shared.defaultCategoriesAdded = true
     }
 
 }

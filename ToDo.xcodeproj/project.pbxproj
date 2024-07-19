@@ -38,6 +38,23 @@
 		F35B3F512C1DBD6F00351008 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F502C1DBD6F00351008 /* TodoItem.swift */; };
 		F35B3F592C1DBF2300351008 /* TodoItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F582C1DBF2300351008 /* TodoItemTests.swift */; };
 		F35B3F632C1DFA1D00351008 /* TodoItemCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3F622C1DFA1D00351008 /* TodoItemCacheTests.swift */; };
+		F3663CF42C453DBE006EA0D1 /* TodoItemListNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663CF32C453DBE006EA0D1 /* TodoItemListNetworkModel.swift */; };
+		F3663CF62C45513F006EA0D1 /* GetTodoItemRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663CF52C45513F006EA0D1 /* GetTodoItemRequest.swift */; };
+		F3663CF82C4552EA006EA0D1 /* PatchTodoItemListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663CF72C4552EA006EA0D1 /* PatchTodoItemListRequest.swift */; };
+		F3663CFA2C4552FD006EA0D1 /* AddTodoItemRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663CF92C4552FD006EA0D1 /* AddTodoItemRequest.swift */; };
+		F3663CFC2C45530A006EA0D1 /* EditTodoItemRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663CFB2C45530A006EA0D1 /* EditTodoItemRequest.swift */; };
+		F3663CFE2C455317006EA0D1 /* DeleteTodoItemRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663CFD2C455317006EA0D1 /* DeleteTodoItemRequest.swift */; };
+		F3663D012C4559D1006EA0D1 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D002C4559D1006EA0D1 /* StorageService.swift */; };
+		F3663D032C4560F9006EA0D1 /* TodoItemElementNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D022C4560F9006EA0D1 /* TodoItemElementNetworkModel.swift */; };
+		F3663D052C45610A006EA0D1 /* TodoItemNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D042C45610A006EA0D1 /* TodoItemNetworkModel.swift */; };
+		F3663D082C45661D006EA0D1 /* NetworkingServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D072C45661D006EA0D1 /* NetworkingServiceError.swift */; };
+		F3663D0A2C4569BE006EA0D1 /* Revisionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D092C4569BE006EA0D1 /* Revisionable.swift */; };
+		F3663D0C2C456D38006EA0D1 /* TodoNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D0B2C456D38006EA0D1 /* TodoNetworkService.swift */; };
+		F3663D2A2C46ACFA006EA0D1 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D292C46ACFA006EA0D1 /* Int+Extensions.swift */; };
+		F3663D302C46D17C006EA0D1 /* PersistentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D2F2C46D17C006EA0D1 /* PersistentStorage.swift */; };
+		F3663D322C4704ED006EA0D1 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D312C4704ED006EA0D1 /* GlobalConstants.swift */; };
+		F3663D342C47F1D0006EA0D1 /* SwiftDataModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D332C47F1D0006EA0D1 /* SwiftDataModelsTests.swift */; };
+		F3663D362C4824A1006EA0D1 /* TodoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D352C4824A1006EA0D1 /* TodoRepository.swift */; };
 		F36DE3362C4136A80053D071 /* KeyPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36DE3352C4136A80053D071 /* KeyPath+Extensions.swift */; };
 		F39BE02E2C32DA9600EC634B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE02D2C32DA9600EC634B /* CalendarViewController.swift */; };
 		F39BE0302C32DA9F00EC634B /* CalendarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE02F2C32DA9F00EC634B /* CalendarUIView.swift */; };
@@ -51,6 +68,10 @@
 		F39BE0432C330DED00EC634B /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0422C330DED00EC634B /* UIFont+Extensions.swift */; };
 		F39BE0462C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0452C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift */; };
 		F39BE0482C346B8600EC634B /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE0472C346B8600EC634B /* FloatingButton.swift */; };
+		F3C10CA02C452D2500EA506C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C10C9F2C452D2500EA506C /* Endpoint.swift */; };
+		F3C10CA32C452EDA00EA506C /* GetTodoItemListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C10CA22C452EDA00EA506C /* GetTodoItemListRequest.swift */; };
+		F3C10CA52C452EFD00EA506C /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C10CA42C452EFD00EA506C /* NetworkRequest.swift */; };
+		F3C10CA72C45314200EA506C /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C10CA62C45314200EA506C /* NetworkingService.swift */; };
 		F3F3FAAF2C2D788200991A3A /* Fonts+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAAE2C2D788200991A3A /* Fonts+Extensions.swift */; };
 		F3F3FAB32C2D7AD600991A3A /* TodoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAB22C2D7AD600991A3A /* TodoCell.swift */; };
 		F3F3FAB52C2D80D500991A3A /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3FAB42C2D80D500991A3A /* TodoList.swift */; };
@@ -74,7 +95,7 @@
 		F3F8E3A82C3C01ED00CB54D8 /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F8E3A72C3C01ED00CB54D8 /* URLSession+Extensions.swift */; };
 		F3F8E3AA2C3C3D5400CB54D8 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F8E3A92C3C3D5400CB54D8 /* AnalyticsService.swift */; };
 		F3F8E3AD2C3C4DB900CB54D8 /* AnalyticEventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F8E3AC2C3C4DB900CB54D8 /* AnalyticEventItem.swift */; };
-		F3F8E3AF2C40263900CB54D8 /* URLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F8E3AE2C40263900CB54D8 /* URLSessionTests.swift */; };
+		F3F8E3AF2C40263900CB54D8 /* NetworkingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F8E3AE2C40263900CB54D8 /* NetworkingServiceTests.swift */; };
 		F3F8E3B42C404D6100CB54D8 /* FileCache in Frameworks */ = {isa = PBXBuildFile; productRef = F3F8E3B32C404D6100CB54D8 /* FileCache */; };
 /* End PBXBuildFile section */
 
@@ -125,6 +146,23 @@
 		F35B3F562C1DBF2300351008 /* ToDoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B3F582C1DBF2300351008 /* TodoItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemTests.swift; sourceTree = "<group>"; };
 		F35B3F622C1DFA1D00351008 /* TodoItemCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemCacheTests.swift; sourceTree = "<group>"; };
+		F3663CF32C453DBE006EA0D1 /* TodoItemListNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemListNetworkModel.swift; sourceTree = "<group>"; };
+		F3663CF52C45513F006EA0D1 /* GetTodoItemRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTodoItemRequest.swift; sourceTree = "<group>"; };
+		F3663CF72C4552EA006EA0D1 /* PatchTodoItemListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchTodoItemListRequest.swift; sourceTree = "<group>"; };
+		F3663CF92C4552FD006EA0D1 /* AddTodoItemRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoItemRequest.swift; sourceTree = "<group>"; };
+		F3663CFB2C45530A006EA0D1 /* EditTodoItemRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTodoItemRequest.swift; sourceTree = "<group>"; };
+		F3663CFD2C455317006EA0D1 /* DeleteTodoItemRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTodoItemRequest.swift; sourceTree = "<group>"; };
+		F3663D002C4559D1006EA0D1 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		F3663D022C4560F9006EA0D1 /* TodoItemElementNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemElementNetworkModel.swift; sourceTree = "<group>"; };
+		F3663D042C45610A006EA0D1 /* TodoItemNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemNetworkModel.swift; sourceTree = "<group>"; };
+		F3663D072C45661D006EA0D1 /* NetworkingServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingServiceError.swift; sourceTree = "<group>"; };
+		F3663D092C4569BE006EA0D1 /* Revisionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Revisionable.swift; sourceTree = "<group>"; };
+		F3663D0B2C456D38006EA0D1 /* TodoNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoNetworkService.swift; sourceTree = "<group>"; };
+		F3663D292C46ACFA006EA0D1 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		F3663D2F2C46D17C006EA0D1 /* PersistentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorage.swift; sourceTree = "<group>"; };
+		F3663D312C4704ED006EA0D1 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		F3663D332C47F1D0006EA0D1 /* SwiftDataModelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModelsTests.swift; sourceTree = "<group>"; };
+		F3663D352C4824A1006EA0D1 /* TodoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepository.swift; sourceTree = "<group>"; };
 		F36DE3352C4136A80053D071 /* KeyPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyPath+Extensions.swift"; sourceTree = "<group>"; };
 		F39BE02D2C32DA9600EC634B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		F39BE02F2C32DA9F00EC634B /* CalendarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUIView.swift; sourceTree = "<group>"; };
@@ -138,6 +176,10 @@
 		F39BE0422C330DED00EC634B /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		F39BE0452C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionsConfigurationBuilder.swift; sourceTree = "<group>"; };
 		F39BE0472C346B8600EC634B /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		F3C10C9F2C452D2500EA506C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		F3C10CA22C452EDA00EA506C /* GetTodoItemListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTodoItemListRequest.swift; sourceTree = "<group>"; };
+		F3C10CA42C452EFD00EA506C /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		F3C10CA62C45314200EA506C /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		F3F3FAAE2C2D788200991A3A /* Fonts+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fonts+Extensions.swift"; sourceTree = "<group>"; };
 		F3F3FAB22C2D7AD600991A3A /* TodoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCell.swift; sourceTree = "<group>"; };
 		F3F3FAB42C2D80D500991A3A /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
@@ -161,7 +203,7 @@
 		F3F8E3A72C3C01ED00CB54D8 /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
 		F3F8E3A92C3C3D5400CB54D8 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		F3F8E3AC2C3C4DB900CB54D8 /* AnalyticEventItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticEventItem.swift; sourceTree = "<group>"; };
-		F3F8E3AE2C40263900CB54D8 /* URLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTests.swift; sourceTree = "<group>"; };
+		F3F8E3AE2C40263900CB54D8 /* NetworkingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,7 +428,8 @@
 				F35B3F582C1DBF2300351008 /* TodoItemTests.swift */,
 				F35B3F622C1DFA1D00351008 /* TodoItemCacheTests.swift */,
 				F3525D682C3571C5001F8D61 /* CategoryCacheTests.swift */,
-				F3F8E3AE2C40263900CB54D8 /* URLSessionTests.swift */,
+				F3F8E3AE2C40263900CB54D8 /* NetworkingServiceTests.swift */,
+				F3663D332C47F1D0006EA0D1 /* SwiftDataModelsTests.swift */,
 			);
 			path = ToDoTests;
 			sourceTree = "<group>";
@@ -394,12 +437,47 @@
 		F35B3F612C1DD21F00351008 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F3CD597A2C4A94BA003B9BD3 /* UI */,
+				F3C10C9E2C452C5900EA506C /* Network */,
+				F3663CFF2C455993006EA0D1 /* Storage */,
 				F3F8E3AB2C3C4DA200CB54D8 /* AnalyticsService */,
 				F3525D9B2C3BEC34001F8D61 /* Logger */,
 				F3525D702C3574DA001F8D61 /* FileCache */,
-				F39BE0452C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift */,
+				F3663D352C4824A1006EA0D1 /* TodoRepository.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		F3663CF22C453DAB006EA0D1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F3C10C9F2C452D2500EA506C /* Endpoint.swift */,
+				F3663D042C45610A006EA0D1 /* TodoItemNetworkModel.swift */,
+				F3663CF32C453DBE006EA0D1 /* TodoItemListNetworkModel.swift */,
+				F3663D022C4560F9006EA0D1 /* TodoItemElementNetworkModel.swift */,
+				F3663D092C4569BE006EA0D1 /* Revisionable.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F3663CFF2C455993006EA0D1 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F3663D002C4559D1006EA0D1 /* StorageService.swift */,
+				F3663D2F2C46D17C006EA0D1 /* PersistentStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		F3663D062C45660A006EA0D1 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				F3663D0B2C456D38006EA0D1 /* TodoNetworkService.swift */,
+				F3C10CA62C45314200EA506C /* NetworkingService.swift */,
+				F3663D072C45661D006EA0D1 /* NetworkingServiceError.swift */,
+				F3C10CA42C452EFD00EA506C /* NetworkRequest.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		F39BE02C2C32DA8800EC634B /* Calendar */ = {
@@ -430,6 +508,37 @@
 				F39BE02F2C32DA9F00EC634B /* CalendarUIView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F3C10C9E2C452C5900EA506C /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F3663D062C45660A006EA0D1 /* Service */,
+				F3663CF22C453DAB006EA0D1 /* Models */,
+				F3C10CA12C452ECB00EA506C /* Requests */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F3C10CA12C452ECB00EA506C /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				F3C10CA22C452EDA00EA506C /* GetTodoItemListRequest.swift */,
+				F3663CF72C4552EA006EA0D1 /* PatchTodoItemListRequest.swift */,
+				F3663CF52C45513F006EA0D1 /* GetTodoItemRequest.swift */,
+				F3663CF92C4552FD006EA0D1 /* AddTodoItemRequest.swift */,
+				F3663CFB2C45530A006EA0D1 /* EditTodoItemRequest.swift */,
+				F3663CFD2C455317006EA0D1 /* DeleteTodoItemRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		F3CD597A2C4A94BA003B9BD3 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F39BE0452C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		F3F3FAB12C2D7ABA00991A3A /* App */ = {
@@ -474,6 +583,8 @@
 				F3525D902C35BD6A001F8D61 /* UIViewController+Extensions.swift */,
 				F3F8E3A72C3C01ED00CB54D8 /* URLSession+Extensions.swift */,
 				F36DE3352C4136A80053D071 /* KeyPath+Extensions.swift */,
+				F3663D292C46ACFA006EA0D1 /* Int+Extensions.swift */,
+				F3663D312C4704ED006EA0D1 /* GlobalConstants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -691,10 +802,12 @@
 				F3525D952C36CDA5001F8D61 /* CategoryViewModel.swift in Sources */,
 				F3F3FAB72C2D821500991A3A /* TodoListViewModel.swift in Sources */,
 				F39BE0322C32DBA500EC634B /* UIView+Extensions.swift in Sources */,
+				F3663D322C4704ED006EA0D1 /* GlobalConstants.swift in Sources */,
 				F39BE0302C32DA9F00EC634B /* CalendarUIView.swift in Sources */,
 				F3F3FADE2C2F32B100991A3A /* View+Extensions.swift in Sources */,
 				F3F8E3A82C3C01ED00CB54D8 /* URLSession+Extensions.swift in Sources */,
 				F3F3FADB2C2F166100991A3A /* ColorPickerSlider.swift in Sources */,
+				F3663CF62C45513F006EA0D1 /* GetTodoItemRequest.swift in Sources */,
 				F3F8E3AD2C3C4DB900CB54D8 /* AnalyticEventItem.swift in Sources */,
 				F3525D812C3597EA001F8D61 /* NewCategoryViewController.swift in Sources */,
 				F39BE0342C32DD0E00EC634B /* CalendarView.swift in Sources */,
@@ -702,38 +815,56 @@
 				F39BE02E2C32DA9600EC634B /* CalendarViewController.swift in Sources */,
 				F39BE0382C32EECD00EC634B /* CalendarCollectionViewCell.swift in Sources */,
 				F3F3FAB52C2D80D500991A3A /* TodoList.swift in Sources */,
+				F3663CFA2C4552FD006EA0D1 /* AddTodoItemRequest.swift in Sources */,
 				F3F3FAC62C2DD51F00991A3A /* Date+Extensions.swift in Sources */,
+				F3663CF82C4552EA006EA0D1 /* PatchTodoItemListRequest.swift in Sources */,
 				F3F3FAB32C2D7AD600991A3A /* TodoCell.swift in Sources */,
 				F3F3FAC12C2DC5E000991A3A /* View+Modifiers.swift in Sources */,
 				F3F3FAAF2C2D788200991A3A /* Fonts+Extensions.swift in Sources */,
 				F3525D912C35BD6A001F8D61 /* UIViewController+Extensions.swift in Sources */,
 				F3F3FACE2C2EBD0F00991A3A /* TodoViewModel.swift in Sources */,
 				F3525D7F2C3596AF001F8D61 /* PlainButton.swift in Sources */,
+				F3663D052C45610A006EA0D1 /* TodoItemNetworkModel.swift in Sources */,
 				F3525D8B2C35BA4E001F8D61 /* TextFieldWithInset.swift in Sources */,
 				F39BE03B2C32EFF900EC634B /* CalendarTableViewCell.swift in Sources */,
+				F3663D362C4824A1006EA0D1 /* TodoRepository.swift in Sources */,
+				F3663D012C4559D1006EA0D1 /* StorageService.swift in Sources */,
 				F3F3FACC2C2EB81A00991A3A /* TodoItem+CSV.swift in Sources */,
 				F3F3FAD02C2ED4E300991A3A /* DeleteSwipe.swift in Sources */,
 				F3F3FABF2C2DC5B300991A3A /* MarkAsDoneSwipe.swift in Sources */,
 				F39BE0462C343ABF00EC634B /* SwipeActionsConfigurationBuilder.swift in Sources */,
+				F3663D032C4560F9006EA0D1 /* TodoItemElementNetworkModel.swift in Sources */,
+				F3C10CA02C452D2500EA506C /* Endpoint.swift in Sources */,
+				F3663CF42C453DBE006EA0D1 /* TodoItemListNetworkModel.swift in Sources */,
 				F3F3FABD2C2DC59700991A3A /* InfoSwipe.swift in Sources */,
 				F3F3FAD92C2F162200991A3A /* ColorPalette.swift in Sources */,
 				F3525D6C2C35737C001F8D61 /* Category+JSON.swift in Sources */,
+				F3C10CA52C452EFD00EA506C /* NetworkRequest.swift in Sources */,
 				F3525D9A2C3BE6BC001F8D61 /* Logger.swift in Sources */,
+				F3663D2A2C46ACFA006EA0D1 /* Int+Extensions.swift in Sources */,
 				F3F3FACA2C2EB81000991A3A /* TodoItem+JSON.swift in Sources */,
 				F3525D742C3578DB001F8D61 /* TodoItemCache.swift in Sources */,
 				F3525D632C355862001F8D61 /* CategoryView.swift in Sources */,
 				F3F3FAD22C2EF9E200991A3A /* CustomColorPicker.swift in Sources */,
 				F3525D762C3578E2001F8D61 /* CategoryCache.swift in Sources */,
+				F3663D0A2C4569BE006EA0D1 /* Revisionable.swift in Sources */,
 				F35B3F512C1DBD6F00351008 /* TodoItem.swift in Sources */,
+				F3663CFC2C45530A006EA0D1 /* EditTodoItemRequest.swift in Sources */,
+				F3663CFE2C455317006EA0D1 /* DeleteTodoItemRequest.swift in Sources */,
 				F3525D7A2C359488001F8D61 /* NewCategoryUIView.swift in Sources */,
 				F3F3FAD42C2EFDE200991A3A /* Color+Extensions.swift in Sources */,
 				F3525D7D2C359676001F8D61 /* BaseButton.swift in Sources */,
 				F39BE0362C32EEB600EC634B /* CellsReusingUtils.swift in Sources */,
 				F3525D5D2C3555C2001F8D61 /* CategoryUIView.swift in Sources */,
+				F3C10CA32C452EDA00EA506C /* GetTodoItemListRequest.swift in Sources */,
 				F39BE03D2C32F11B00EC634B /* CalendarSectionHeaderView.swift in Sources */,
+				F3663D302C46D17C006EA0D1 /* PersistentStorage.swift in Sources */,
 				F39BE03F2C32F15100EC634B /* CalendarViewModel.swift in Sources */,
 				F39BE0432C330DED00EC634B /* UIFont+Extensions.swift in Sources */,
+				F3C10CA72C45314200EA506C /* NetworkingService.swift in Sources */,
 				F3525D612C355858001F8D61 /* CategoryViewController.swift in Sources */,
+				F3663D082C45661D006EA0D1 /* NetworkingServiceError.swift in Sources */,
+				F3663D0C2C456D38006EA0D1 /* TodoNetworkService.swift in Sources */,
 				F3525D652C3565AF001F8D61 /* Category.swift in Sources */,
 				F3525D6E2C357385001F8D61 /* Category+CSV.swift in Sources */,
 				F3525D862C359E93001F8D61 /* NewCategoryViewModel.swift in Sources */,
@@ -751,8 +882,9 @@
 			files = (
 				F3525D692C3571C5001F8D61 /* CategoryCacheTests.swift in Sources */,
 				F35B3F632C1DFA1D00351008 /* TodoItemCacheTests.swift in Sources */,
-				F3F8E3AF2C40263900CB54D8 /* URLSessionTests.swift in Sources */,
+				F3F8E3AF2C40263900CB54D8 /* NetworkingServiceTests.swift in Sources */,
 				F35B3F592C1DBF2300351008 /* TodoItemTests.swift in Sources */,
+				F3663D342C47F1D0006EA0D1 /* SwiftDataModelsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

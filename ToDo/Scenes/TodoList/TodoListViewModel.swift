@@ -7,9 +7,13 @@
 
 import SwiftUI
 import Combine
+import SwiftData
 
+// MARK: - TodoListViewModel
+@MainActor
 final class TodoListViewModel: ObservableObject {
 
+    // MARK: - Public properties
     @Published var todoItems: [TodoItem] = []
     @Published var todoViewPresented: Bool = false {
         didSet {
@@ -23,25 +27,16 @@ final class TodoListViewModel: ObservableObject {
     @Published var newTodo: String = ""
     @Published var showCompleted: Bool = true {
         didSet {
-            updateTodoItemsList()
+            fetchLocally()
         }
     }
     @Published var sortType: SortType = .addition {
         didSet {
-            updateTodoItemsList()
+            fetchLocally()
         }
     }
-    @Published private var todoItemCache: TodoItemCache
-
-    enum SortType {
-        case priority, addition
-        var descriptionOfNext: String {
-            switch self {
-            case .priority: String(localized: "sort.byAddition")
-            case .addition: String(localized: "sort.byPriority")
-            }
-        }
-    }
+    @Published var doneCount: Int = 0
+    @Published private(set) var isLoading = false
 
     var todoItemToOpen: TodoItem {
         if let selectedTodoItem {
@@ -50,28 +45,71 @@ final class TodoListViewModel: ObservableObject {
         return TodoItem.empty
     }
 
-    var doneCount: Int {
-        todoItemCache.items.values.filter({ $0.isDone }).count
-    }
-
+    // MARK: - Private properties
+    @ObservedObject private var repository: TodoRepository
     private var cancellables = Set<AnyCancellable>()
 
-    init(todoItemCache: TodoItemCache = TodoItemCache.shared) {
-        self.todoItemCache = todoItemCache
-        try? self.todoItemCache.loadJson()
+    // MARK: - Initializers
+    init(modelContext: ModelContext) {
+        self.repository = TodoRepository(
+            persistentStorage: PersistentStorage(modelContext: modelContext)
+        )
         setupBindings()
     }
 
-    func addItem(_ item: TodoItem) {
-        todoItemCache.addItemAndSaveJson(item)
+    // MARK: - Public methods
+    func fetch() async {
+        do {
+            let items = try await repository.fetchTodoList(
+                predicate: #Predicate {
+                    showCompleted ? true : !$0.isDone
+                }
+            )
+            try updateDoneCount()
+            // SortDescriptor can't sort by comparable enum (
+            // https://forums.developer.apple.com/forums/thread/738145
+            todoItems = applyFilters(items: items)
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
     }
 
-    func toggleDone(_ todoItem: TodoItem) {
-        todoItemCache.addItemAndSaveJson(todoItem.toggleDone(!todoItem.isDone))
+    func fetchLocally() {
+        do {
+            let items = try repository.fetchLocally(
+                predicate: #Predicate {
+                    showCompleted ? true : !$0.isDone
+                }
+            )
+            try updateDoneCount()
+            todoItems = applyFilters(items: items)
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
     }
 
-    func delete(_ todoItem: TodoItem) {
-        todoItemCache.removeItemAndSaveJson(id: todoItem.id)
+    func addItem(_ item: TodoItem) async {
+        do {
+            try await repository.addTodoItem(item)
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
+    }
+
+    func toggleDone(_ todoItem: TodoItem) async {
+        do {
+            try await repository.toggleDone(todoItem)
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
+    }
+
+    func delete(_ todoItem: TodoItem) async {
+        do {
+            try await repository.deleteTodoItem(todoItem)
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+        }
     }
 
     func toggleShowCompleted() {
@@ -79,7 +117,7 @@ final class TodoListViewModel: ObservableObject {
     }
 
     func toggleSortType() {
-        sortType = sortType == .addition ? .priority : .addition
+        sortType = sortType == .addition ? .importance : .addition
     }
 
     func colorFor(todoItem: TodoItem) -> Color? {
@@ -87,36 +125,46 @@ final class TodoListViewModel: ObservableObject {
         return Color(hex: hex)
     }
 
-    private func updateTodoItemsList() {
-        todoItems = applyFilters(items: Array(todoItemCache.items.values))
-    }
-
-    private func setupBindings() {
-        todoItemCache.$items
-            .sink { [weak self] newItems in
-                guard let self else { return }
-                self.todoItems = self.applyFilters(items: Array(newItems.values))
-            }
-            .store(in: &cancellables)
-    }
-
+    // MARK: - Private methods
     private func applyFilters(items: [TodoItem]) -> [TodoItem] {
-        var result = switch sortType {
-        case .priority:
+        switch sortType {
+        case .importance:
             items.sorted {
-                if $0.priority == $1.priority {
+                if $0.importance == $1.importance {
                     return $0.createdAt < $1.createdAt
                 } else {
-                    return $0.priority > $1.priority
+                    return $0.importance > $1.importance
                 }
             }
         case .addition:
             items.sorted { $0.createdAt < $1.createdAt }
         }
-        if !showCompleted {
-            result = result.filter { !$0.isDone }
+    }
+
+    private func updateDoneCount() throws {
+        doneCount = try repository.fetchCountLocally(predicate: #Predicate { $0.isDone })
+    }
+
+    private func setupBindings() {
+        repository.$activeRequestsCount
+            .sink { [weak self] newValue in
+                self?.isLoading = newValue > 0
+            }
+            .store(in: &cancellables)
+    }
+
+}
+
+extension TodoListViewModel {
+
+    enum SortType {
+        case importance, addition
+        var descriptionOfNext: String {
+            switch self {
+            case .importance: String(localized: "sort.byAddition")
+            case .addition: String(localized: "sort.byImportance")
+            }
         }
-        return result
     }
 
 }

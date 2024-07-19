@@ -6,117 +6,43 @@
 //
 
 import SwiftUI
+import SwiftData
 import FileCache
 
 // MARK: - TodoItem
-struct TodoItem: StringIdentifiable {
+@Model
+final class TodoItem: StringIdentifiable, @unchecked Sendable {
 
-    let id: String
-    let text: String
-    let priority: Priority
-    let deadline: Date?
-    let isDone: Bool
-    let createdAt: Date
-    let modifiedAt: Date?
-    let color: String?
-    let categoryId: String?
+    @Attribute(.unique) let id: String
+    var text: String
+    var importance: Importance
+    var deadline: Date?
+    var isDone: Bool
+    var createdAt: Date
+    var modifiedAt: Date?
+    var color: String?
+    @Relationship var category: Category?
 
     init(
         id: String = UUID().uuidString,
         text: String,
-        priority: Priority = .medium,
+        importance: Importance = .basic,
         deadline: Date? = nil,
         isDone: Bool = false,
         createdAt: Date = .now,
         modifiedAt: Date? = nil,
         color: String? = nil,
-        categoryId: String? = nil
+        category: Category? = nil
     ) {
         self.id = id
         self.text = text
-        self.priority = priority
+        self.importance = importance
         self.deadline = deadline
         self.isDone = isDone
         self.createdAt = createdAt
         self.modifiedAt = modifiedAt
         self.color = color
-        self.categoryId = categoryId
-    }
-
-    func copyWith(
-        text: String? = nil,
-        priority: Priority? = nil,
-        deadline: Date?,
-        isDone: Bool? = nil,
-        modifiedAt: Date? = nil,
-        color: String? = nil,
-        categoryId: String? = nil
-    ) -> TodoItem {
-        TodoItem(
-            id: self.id,
-            text: text ?? self.text,
-            priority: priority ?? self.priority,
-            deadline: deadline,
-            isDone: isDone ?? self.isDone,
-            createdAt: self.createdAt,
-            modifiedAt: modifiedAt ?? self.modifiedAt,
-            color: color,
-            categoryId: categoryId
-        )
-    }
-
-    func toggleDone(_ isDone: Bool) -> TodoItem {
-        TodoItem(
-            id: self.id,
-            text: self.text,
-            priority: self.priority,
-            deadline: self.deadline,
-            isDone: isDone,
-            createdAt: self.createdAt,
-            modifiedAt: self.modifiedAt,
-            color: self.color,
-            categoryId: self.categoryId
-        )
-    }
-
-}
-
-// MARK: - Priority and Keys
-extension TodoItem {
-
-    enum Priority: String, CaseIterable, Identifiable, Comparable {
-        private static func minimum(_ lhs: Self, _ rhs: Self) -> Self {
-            switch (lhs, rhs) {
-            case (.low, _), (_, .low): .low
-            case (.medium, _), (_, .medium): .medium
-            case (.high, _), (_, .high): .high
-            }
-        }
-
-        static func < (lhs: Self, rhs: Self) -> Bool {
-            (lhs != rhs) && (lhs == Self.minimum(lhs, rhs))
-        }
-
-        case low, medium, high
-
-        var id: Self { self }
-
-        var symbol: AnyView {
-            switch self {
-            case .low: AnyView(Image(.priorityLow))
-            case .medium: AnyView(Text("no"))
-            case .high: AnyView(Image(.priorityHigh))
-            }
-        }
-
-    }
-
-    enum Keys: String {
-        case id, text, priority, deadline, color
-        case categoryId = "category_id"
-        case isDone = "is_done"
-        case createdAt = "created_at"
-        case modifiedAt = "modified_at"
+        self.category = category
     }
 
 }
@@ -124,33 +50,83 @@ extension TodoItem {
 // MARK: - Equatable
 extension TodoItem: Equatable {
 
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    static func == (lhs: TodoItem, rhs: TodoItem) -> Bool {
         lhs.id == rhs.id &&
         lhs.text == rhs.text &&
-        lhs.priority == rhs.priority &&
+        lhs.importance == rhs.importance &&
         lhs.deadline == rhs.deadline &&
         lhs.isDone == rhs.isDone &&
         lhs.createdAt == rhs.createdAt &&
         lhs.modifiedAt == rhs.modifiedAt &&
-        lhs.categoryId == rhs.categoryId
+        lhs.category == rhs.category
     }
-
-}
-
-extension TodoItem {
 
     static var empty: TodoItem {
         TodoItem(
             id: UUID().uuidString,
             text: "",
-            priority: .medium,
+            importance: .basic,
             deadline: nil,
             isDone: false,
             createdAt: .now,
             modifiedAt: nil,
             color: nil,
-            categoryId: nil
+            category: nil
         )
+    }
+
+    var toNetworkModel: TodoItemNetworkModel {
+        TodoItemNetworkModel(
+            id: id,
+            text: text,
+            importance: importance.rawValue,
+            deadline: Int(deadline?.timeIntervalSince1970),
+            isDone: isDone,
+            color: color,
+            createdAt: Int(createdAt.timeIntervalSince1970),
+            modifiedAt: Int(modifiedAt?.timeIntervalSince1970) ?? Int(createdAt.timeIntervalSince1970),
+            lastUpdatedBy: "user_id" // add userId
+        )
+    }
+
+}
+
+// MARK: - Importance
+enum Importance: String, Codable, CaseIterable, Identifiable, Comparable {
+    private static func minimum(_ lhs: Self, _ rhs: Self) -> Self {
+        switch (lhs, rhs) {
+        case (.low, _), (_, .low): .low
+        case (.basic, _), (_, .basic): .basic
+        case (.important, _), (_, .important): .important
+        }
+    }
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        (lhs != rhs) && (lhs == Self.minimum(lhs, rhs))
+    }
+
+    case low, basic, important
+
+    var id: Self { self }
+
+    var symbol: AnyView {
+        switch self {
+        case .low: AnyView(Image(.importanceLow))
+        case .basic: AnyView(Text("no"))
+        case .important: AnyView(Image(.importanceHigh))
+        }
+    }
+
+}
+
+// MARK: - Keys
+extension TodoItem {
+
+    enum Keys: String {
+        case id, text, importance, deadline, color, category
+        case isDone = "is_done"
+        case createdAt = "created_at"
+        case modifiedAt = "modified_at"
     }
 
 }

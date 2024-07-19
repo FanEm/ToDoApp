@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import Combine
+import SwiftData
 
 // MARK: - CalendarViewController
 final class CalendarViewController: UIViewController {
@@ -15,6 +16,7 @@ final class CalendarViewController: UIViewController {
     // MARK: - Private properties
     private let calendarView: CalendarUIView = CalendarUIView()
     private let viewModel: CalendarViewModel
+    private let modelContext: ModelContext
 
     private var cancellables = Set<AnyCancellable>()
     private var isScrollingTableView = false
@@ -28,8 +30,9 @@ final class CalendarViewController: UIViewController {
     )
 
     // MARK: - Initializers
-    init(viewModel: CalendarViewModel = CalendarViewModel()) {
-        self.viewModel = viewModel
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+        self.viewModel = CalendarViewModel(modelContext: modelContext)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -47,15 +50,18 @@ final class CalendarViewController: UIViewController {
         configureNavigationBar()
         configureView()
         setupBindings()
+        viewModel.fetch()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        registerObservers()
         AnalyticsService.openCalendar()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        removeObservers()
         AnalyticsService.closeCalendar()
     }
 
@@ -76,8 +82,7 @@ final class CalendarViewController: UIViewController {
 
     private func reloadData() {
         calendarView.collectionView.reloadData()
-        let visibleIndexPaths = calendarView.tableView.indexPathsForVisibleRows ?? []
-        calendarView.tableView.reloadRows(at: visibleIndexPaths, with: .none)
+        calendarView.tableView.reloadData()
         guard !viewModel.data.isEmpty else { return }
         calendarView.collectionView.selectItem(
             at: selectedDate ?? IndexPath(row: 0, section: 0),
@@ -102,6 +107,27 @@ final class CalendarViewController: UIViewController {
             .store(in: &cancellables)
     }
 
+    private func registerObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(contextWillSave),
+            name: Notification.Name.NSManagedObjectContextWillSave,
+            object: nil
+        )
+    }
+
+    private func removeObservers() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: Notification.Name.NSManagedObjectContextWillSave,
+            object: nil
+        )
+    }
+
+    @objc private func contextWillSave() {
+        viewModel.fetch()
+    }
+
     @objc private func closeButtonTapped() {
         dismiss(animated: true)
     }
@@ -114,7 +140,8 @@ extension CalendarViewController: CalendarUIViewDelegate {
     func didTapButton(_ button: UIButton) {
         AnalyticsService.calendarTapAddNew()
         let todoView = TodoView(
-            viewModel: TodoViewModel(todoItem: TodoItem.empty)
+            modelContext: modelContext,
+            todoItem: TodoItem.empty
         )
         let vc = UIHostingController(rootView: todoView)
         present(vc, animated: true)
@@ -158,6 +185,7 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
                 backgroundColor: .primaryGreen
             ) { [weak self] (_, _, completionHandler) in
                 self?.viewModel.toggleDone(true, at: indexPath)
+                tableView.reloadRows(at: [indexPath], with: .automatic)
                 AnalyticsService.calendarSwipeMarkAsCompleted(true)
                 completionHandler(true)
             }
@@ -176,6 +204,7 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
                 backgroundColor: .primaryRed
             ) { [weak self] (_, _, completionHandler) in
                 self?.viewModel.toggleDone(false, at: indexPath)
+                tableView.reloadRows(at: [indexPath], with: .automatic)
                 AnalyticsService.calendarSwipeMarkAsCompleted(false)
                 completionHandler(true)
             }

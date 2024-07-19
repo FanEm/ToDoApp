@@ -1,5 +1,5 @@
 //
-//  URLSessionTests.swift
+//  NetworkingServiceTests.swift
 //  ToDoTests
 //
 //  Created by Artem Novikov on 11.07.2024.
@@ -8,34 +8,37 @@
 import XCTest
 @testable import ToDo
 
-final class URLSessionTests: XCTestCase {
+final class NetworkingServiceTests: XCTestCase {
 
-    private struct CatFactDTO: Codable {
-        let fact: String
-        let length: Int
+    let networkingService = DefaultNetworkingService()
+
+    enum Constants {
+        static let id: String = UUID().uuidString
     }
 
-    private var url: URL = URL(string: "https://catfact.ninja/fact")!
-
-    func testGetRequest() async throws {
-        let request = URLRequest(url: url)
+    func testGetTodoList() async throws {
+        let request = GetTodoItemListRequest()
         do {
-            let (data, response) = try await URLSession.shared.dataTask(for: request)
-            XCTAssertNotNil(response)
+            let data = try await networkingService.send(
+                request: request,
+                type: TodoItemListResponseModel.self
+            )
             XCTAssertNotNil(data)
-            let catFact = try? JSONDecoder().decode(CatFactDTO.self, from: data)
-            XCTAssertNotNil(catFact)
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
+    @MainActor
     func testCancelRequest() async {
         let expectation = expectation(description: "Request should be cancelled")
-        let request = URLRequest(url: url)
+        let request = GetTodoItemListRequest()
         let task = Task {
             do {
-                let (_, _) = try await URLSession.shared.dataTask(for: request)
+                _ = try await networkingService.send(
+                    request: request,
+                    type: TodoItemListResponseModel.self
+                )
                 XCTFail("Request has not been cancelled")
             } catch is CancellationError {
                 expectation.fulfill()
