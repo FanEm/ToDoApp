@@ -14,14 +14,7 @@ import SwiftData
 final class CalendarViewModel: ObservableObject {
 
     @Published var data: [(date: Date, events: [TodoItem])] = []
-    private var repository: TodoRepository
-
-    // MARK: - Initializers
-    init(modelContext: ModelContext) {
-        self.repository = TodoRepository(
-            persistentStorage: PersistentStorage(modelContext: modelContext)
-        )
-    }
+    private var repository: TodoRepository = TodoRepository()
 
     // MARK: - Public methods
     func fetch() {

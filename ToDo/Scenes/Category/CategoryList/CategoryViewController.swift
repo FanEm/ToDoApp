@@ -16,7 +16,6 @@ final class CategoryViewController: UIViewController {
     // MARK: - Private properties
     private let categoryView: CategoryUIView = CategoryUIView()
     private let categoryViewModel: CategoryViewModel
-    private let modelContext: ModelContext
     private var category: Binding<Category?>?
 
     private var selectedIndexPath: IndexPath?
@@ -39,10 +38,9 @@ final class CategoryViewController: UIViewController {
     // MARK: - Initializers
     init(
         category: Binding<Category?>?,
-        modelContext: ModelContext
+        viewModel: CategoryViewModel = CategoryViewModel()
     ) {
-        self.modelContext = modelContext
-        self.categoryViewModel = CategoryViewModel(modelContext: modelContext)
+        self.categoryViewModel = viewModel
         self.category = category
         super.init(nibName: nil, bundle: nil)
     }
@@ -82,7 +80,7 @@ final class CategoryViewController: UIViewController {
 
     @objc private func addButtonTapped() {
         navigationController?.pushViewController(
-            NewCategoryViewController(modelContext: modelContext),
+            NewCategoryViewController(),
             animated: true
         )
     }

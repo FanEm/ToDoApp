@@ -1,5 +1,5 @@
 //
-//  PersistentStorage.swift
+//  DataHandler.swift
 //  ToDo
 //
 //  Created by Artem Novikov on 16.07.2024.
@@ -8,8 +8,8 @@
 import Foundation
 import SwiftData
 
-// MARK: - PersistentStorage
-struct PersistentStorage<T> where T: PersistentModel {
+// MARK: - DataHandler
+struct DataHandler<T> where T: PersistentModel {
 
     private let modelContext: ModelContext
 
@@ -41,7 +41,7 @@ struct PersistentStorage<T> where T: PersistentModel {
 
 }
 
-extension PersistentStorage where T: TodoItem {
+extension DataHandler where T: TodoItem {
 
     func update(persistentModelID: PersistentIdentifier, newItem: T) {
         guard let item = getModel(id: persistentModelID) else { return }
@@ -51,6 +51,23 @@ extension PersistentStorage where T: TodoItem {
         item.isDone = newItem.isDone
         item.importance = newItem.importance
         item.modifiedAt = newItem.modifiedAt
+    }
+
+}
+
+// MARK: - Predicates
+extension DataHandler where T: TodoItem {
+
+    static func predicate(showCompleted: Bool) -> Predicate<TodoItem> {
+        #Predicate<TodoItem> { showCompleted ? true : !$0.isDone }
+    }
+
+    static func predicate(id: String) -> Predicate<TodoItem> {
+        #Predicate<TodoItem> { $0.id == id }
+    }
+
+    static var predicateIsDone: Predicate<TodoItem> {
+        #Predicate<TodoItem> { $0.isDone }
     }
 
 }

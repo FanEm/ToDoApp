@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 // MARK: - NewCategoryViewModel
+@MainActor
 final class NewCategoryViewModel: ObservableObject {
 
     @Published var canItemBeSaved: Bool = false
@@ -25,22 +26,19 @@ final class NewCategoryViewModel: ObservableObject {
     }
 
     private let category: Category
-    private let persistentStorage: PersistentStorage<Category>
+    private let categoryDataHandler: DataHandler<Category>
 
-    init(
-        modelContext: ModelContext,
-        category: Category = Category()
-    ) {
+    init(category: Category = Category(), dataProvider: DataProvider = DataProvider.shared) {
         self.category = category
         self.text = category.text
         self.color = category.color == nil ? nil : Color(hex: category.color!)
-        self.persistentStorage = PersistentStorage(modelContext: modelContext)
+        self.categoryDataHandler = dataProvider.categoryDataHandler
     }
 
     func saveItem() {
         category.text = text
         category.color = color?.hex
-        persistentStorage.insert(category)
+        categoryDataHandler.insert(category)
     }
 
 }

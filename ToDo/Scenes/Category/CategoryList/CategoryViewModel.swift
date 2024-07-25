@@ -10,20 +10,21 @@ import Combine
 import SwiftData
 
 // MARK: - CategoryViewModel
+@MainActor
 final class CategoryViewModel: ObservableObject {
 
     @Published var categories: [Category] = []
 
-    private let persistentStorage: PersistentStorage<Category>
+    private let categoryDataHandler: DataHandler<Category>
 
-    init(modelContext: ModelContext) {
-        self.persistentStorage = PersistentStorage(modelContext: modelContext)
+    init(dataProvider: DataProvider = DataProvider.shared) {
+        self.categoryDataHandler = dataProvider.categoryDataHandler
         self.addDefaultCategoriesIfNeeded()
     }
 
     func fetch() {
         do {
-            categories = try persistentStorage.fetch(
+            categories = try categoryDataHandler.fetch(
                 sortBy: [.init(\.createdAt)]
             )
         } catch {
@@ -34,7 +35,7 @@ final class CategoryViewModel: ObservableObject {
     private func addDefaultCategoriesIfNeeded() {
         guard !StorageService.shared.defaultCategoriesAdded else { return }
         for category in GlobalConstants.defaultCategories {
-            persistentStorage.insert(category)
+            categoryDataHandler.insert(category)
         }
         StorageService.shared.defaultCategoriesAdded = true
     }

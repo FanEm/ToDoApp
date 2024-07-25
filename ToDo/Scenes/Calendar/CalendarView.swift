@@ -12,10 +12,8 @@ struct CalendarView: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = UINavigationController
 
-    var modelContext: ModelContext
-
     func makeUIViewController(context: Context) -> UINavigationController {
-        UINavigationController(rootViewController: CalendarViewController(modelContext: modelContext))
+        UINavigationController(rootViewController: CalendarViewController())
     }
 
     func updateUIViewController(
@@ -26,14 +24,5 @@ struct CalendarView: UIViewControllerRepresentable {
 }
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: TodoItem.self, configurations: config)
-        let context = container.mainContext
-        context.insert(TodoItem(text: "Test"))
-        return CalendarView(modelContext: context)
-            .ignoresSafeArea()
-    } catch {
-        fatalError()
-    }
+    CalendarView().ignoresSafeArea()
 }

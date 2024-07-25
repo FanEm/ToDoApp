@@ -33,8 +33,8 @@ final class NewCategoryViewController: BaseScrollableViewController {
     )
 
     // MARK: - Initializers
-    init(modelContext: ModelContext) {
-        self.viewModel = NewCategoryViewModel(modelContext: modelContext)
+    init(viewModel: NewCategoryViewModel = NewCategoryViewModel()) {
+        self.viewModel = viewModel
         super.init(baseScrollableView: newCategoryView)
     }
 
