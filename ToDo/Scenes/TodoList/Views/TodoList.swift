@@ -11,15 +11,8 @@ import SwiftData
 // MARK: - TodoList
 struct TodoList: View {
 
-    @StateObject var viewModel: TodoListViewModel
+    @StateObject var viewModel: TodoListViewModel = TodoListViewModel()
     @FocusState private var isFocused
-    private let modelContext: ModelContext
-
-    init(modelContext: ModelContext) {
-        self.modelContext = modelContext
-        let viewModel = TodoListViewModel(modelContext: modelContext)
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
 
     var body: some View {
         NavigationStack {
@@ -80,14 +73,10 @@ struct TodoList: View {
                 floatingButton
             }
             .sheet(isPresented: $viewModel.todoViewPresented) {
-                TodoView(
-                    modelContext: modelContext,
-                    todoItem: viewModel.todoItemToOpen
-                )
+                TodoView(todoItem: viewModel.todoItemToOpen)
             }
             .fullScreenCover(isPresented: $viewModel.calendarViewPresented) {
-                CalendarView(modelContext: modelContext)
-                    .ignoresSafeArea()
+                CalendarView().ignoresSafeArea()
             }
             .onAppear {
                 Task {
@@ -213,13 +202,5 @@ extension TodoList {
 
 // MARK: - Preview
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: TodoItem.self, configurations: config)
-        let context = container.mainContext
-        context.insert(TodoItem(text: "Test"))
-        return TodoList(modelContext: context)
-    } catch {
-        fatalError()
-    }
+    TodoList()
 }

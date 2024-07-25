@@ -46,14 +46,11 @@ final class TodoListViewModel: ObservableObject {
     }
 
     // MARK: - Private properties
-    @ObservedObject private var repository: TodoRepository
+    @ObservedObject private var repository: TodoRepository = TodoRepository()
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializers
-    init(modelContext: ModelContext) {
-        self.repository = TodoRepository(
-            persistentStorage: PersistentStorage(modelContext: modelContext)
-        )
+    init() {
         setupBindings()
     }
 
@@ -61,9 +58,7 @@ final class TodoListViewModel: ObservableObject {
     func fetch() async {
         do {
             let items = try await repository.fetchTodoList(
-                predicate: #Predicate {
-                    showCompleted ? true : !$0.isDone
-                }
+                predicate: DataHandler.predicate(showCompleted: showCompleted)
             )
             try updateDoneCount()
             // SortDescriptor can't sort by comparable enum (
@@ -77,9 +72,7 @@ final class TodoListViewModel: ObservableObject {
     func fetchLocally() {
         do {
             let items = try repository.fetchLocally(
-                predicate: #Predicate {
-                    showCompleted ? true : !$0.isDone
-                }
+                predicate: DataHandler.predicate(showCompleted: showCompleted)
             )
             try updateDoneCount()
             todoItems = applyFilters(items: items)
@@ -142,7 +135,7 @@ final class TodoListViewModel: ObservableObject {
     }
 
     private func updateDoneCount() throws {
-        doneCount = try repository.fetchCountLocally(predicate: #Predicate { $0.isDone })
+        doneCount = try repository.fetchCountLocally(predicate: DataHandler.predicateIsDone)
     }
 
     private func setupBindings() {

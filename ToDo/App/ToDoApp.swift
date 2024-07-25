@@ -11,21 +11,16 @@ import SwiftData
 @main
 struct ToDoApp: App {
 
-    let container: ModelContainer
+    let dataProvider = DataProvider.shared
 
     var body: some Scene {
         WindowGroup {
-            TodoList(modelContext: container.mainContext)
-                .modelContainer(container)
+            TodoList()
+                .modelContainer(dataProvider.sharedModelContainer)
         }
     }
 
     init() {
-        do {
-            container = try ModelContainer(for: TodoItem.self, Category.self)
-        } catch {
-            fatalError("Failed to create ModelContainer for TodoItemModel")
-        }
         Logger.setup()
     }
 

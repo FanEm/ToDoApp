@@ -51,10 +51,11 @@
 		F3663D0A2C4569BE006EA0D1 /* Revisionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D092C4569BE006EA0D1 /* Revisionable.swift */; };
 		F3663D0C2C456D38006EA0D1 /* TodoNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D0B2C456D38006EA0D1 /* TodoNetworkService.swift */; };
 		F3663D2A2C46ACFA006EA0D1 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D292C46ACFA006EA0D1 /* Int+Extensions.swift */; };
-		F3663D302C46D17C006EA0D1 /* PersistentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D2F2C46D17C006EA0D1 /* PersistentStorage.swift */; };
+		F3663D302C46D17C006EA0D1 /* DataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D2F2C46D17C006EA0D1 /* DataHandler.swift */; };
 		F3663D322C4704ED006EA0D1 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D312C4704ED006EA0D1 /* GlobalConstants.swift */; };
 		F3663D342C47F1D0006EA0D1 /* SwiftDataModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D332C47F1D0006EA0D1 /* SwiftDataModelsTests.swift */; };
 		F3663D362C4824A1006EA0D1 /* TodoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3663D352C4824A1006EA0D1 /* TodoRepository.swift */; };
+		F36B700F2C4FEC1E00BC5C45 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B700E2C4FEC1E00BC5C45 /* DataProvider.swift */; };
 		F36DE3362C4136A80053D071 /* KeyPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36DE3352C4136A80053D071 /* KeyPath+Extensions.swift */; };
 		F39BE02E2C32DA9600EC634B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE02D2C32DA9600EC634B /* CalendarViewController.swift */; };
 		F39BE0302C32DA9F00EC634B /* CalendarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BE02F2C32DA9F00EC634B /* CalendarUIView.swift */; };
@@ -159,10 +160,11 @@
 		F3663D092C4569BE006EA0D1 /* Revisionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Revisionable.swift; sourceTree = "<group>"; };
 		F3663D0B2C456D38006EA0D1 /* TodoNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoNetworkService.swift; sourceTree = "<group>"; };
 		F3663D292C46ACFA006EA0D1 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
-		F3663D2F2C46D17C006EA0D1 /* PersistentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorage.swift; sourceTree = "<group>"; };
+		F3663D2F2C46D17C006EA0D1 /* DataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHandler.swift; sourceTree = "<group>"; };
 		F3663D312C4704ED006EA0D1 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		F3663D332C47F1D0006EA0D1 /* SwiftDataModelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModelsTests.swift; sourceTree = "<group>"; };
 		F3663D352C4824A1006EA0D1 /* TodoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepository.swift; sourceTree = "<group>"; };
+		F36B700E2C4FEC1E00BC5C45 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		F36DE3352C4136A80053D071 /* KeyPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyPath+Extensions.swift"; sourceTree = "<group>"; };
 		F39BE02D2C32DA9600EC634B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		F39BE02F2C32DA9F00EC634B /* CalendarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUIView.swift; sourceTree = "<group>"; };
@@ -464,7 +466,8 @@
 			isa = PBXGroup;
 			children = (
 				F3663D002C4559D1006EA0D1 /* StorageService.swift */,
-				F3663D2F2C46D17C006EA0D1 /* PersistentStorage.swift */,
+				F3663D2F2C46D17C006EA0D1 /* DataHandler.swift */,
+				F36B700E2C4FEC1E00BC5C45 /* DataProvider.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -808,6 +811,7 @@
 				F3F8E3A82C3C01ED00CB54D8 /* URLSession+Extensions.swift in Sources */,
 				F3F3FADB2C2F166100991A3A /* ColorPickerSlider.swift in Sources */,
 				F3663CF62C45513F006EA0D1 /* GetTodoItemRequest.swift in Sources */,
+				F36B700F2C4FEC1E00BC5C45 /* DataProvider.swift in Sources */,
 				F3F8E3AD2C3C4DB900CB54D8 /* AnalyticEventItem.swift in Sources */,
 				F3525D812C3597EA001F8D61 /* NewCategoryViewController.swift in Sources */,
 				F39BE0342C32DD0E00EC634B /* CalendarView.swift in Sources */,
@@ -858,7 +862,7 @@
 				F3525D5D2C3555C2001F8D61 /* CategoryUIView.swift in Sources */,
 				F3C10CA32C452EDA00EA506C /* GetTodoItemListRequest.swift in Sources */,
 				F39BE03D2C32F11B00EC634B /* CalendarSectionHeaderView.swift in Sources */,
-				F3663D302C46D17C006EA0D1 /* PersistentStorage.swift in Sources */,
+				F3663D302C46D17C006EA0D1 /* DataHandler.swift in Sources */,
 				F39BE03F2C32F15100EC634B /* CalendarViewModel.swift in Sources */,
 				F39BE0432C330DED00EC634B /* UIFont+Extensions.swift in Sources */,
 				F3C10CA72C45314200EA506C /* NetworkingService.swift in Sources */,

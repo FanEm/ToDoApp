@@ -16,7 +16,6 @@ final class CalendarViewController: UIViewController {
     // MARK: - Private properties
     private let calendarView: CalendarUIView = CalendarUIView()
     private let viewModel: CalendarViewModel
-    private let modelContext: ModelContext
 
     private var cancellables = Set<AnyCancellable>()
     private var isScrollingTableView = false
@@ -30,9 +29,8 @@ final class CalendarViewController: UIViewController {
     )
 
     // MARK: - Initializers
-    init(modelContext: ModelContext) {
-        self.modelContext = modelContext
-        self.viewModel = CalendarViewModel(modelContext: modelContext)
+    init(viewModel: CalendarViewModel = CalendarViewModel()) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -139,10 +137,7 @@ extension CalendarViewController: CalendarUIViewDelegate {
 
     func didTapButton(_ button: UIButton) {
         AnalyticsService.calendarTapAddNew()
-        let todoView = TodoView(
-            modelContext: modelContext,
-            todoItem: TodoItem.empty
-        )
+        let todoView = TodoView(todoItem: TodoItem.empty)
         let vc = UIHostingController(rootView: todoView)
         present(vc, animated: true)
     }

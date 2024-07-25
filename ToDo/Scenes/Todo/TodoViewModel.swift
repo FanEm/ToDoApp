@@ -57,30 +57,23 @@ final class TodoViewModel: ObservableObject {
     }
 
     var isItemNew: Bool {
-        do {
-            let id = todoItem.id
-            return try repository.fetchCountLocally(predicate: #Predicate { $0.id == id }) == 0
-        } catch {
-            Logger.error("\(error.localizedDescription)")
-            return false
-        }
+        repository.todoItemExists(id: todoItem.id)
     }
 
     let todoItem: TodoItem
 
     // MARK: - Private properties
     private var repository: TodoRepository
-    private let categoryPersistentStorage: PersistentStorage<Category>
+    private let categoryDataHandler: DataHandler<Category>
 
     // MARK: - Initializers
     init(
-        modelContext: ModelContext,
-        todoItem: TodoItem
+        todoItem: TodoItem,
+        repository: TodoRepository = TodoRepository(),
+        dataProvider: DataProvider = DataProvider.shared
     ) {
-        self.repository = TodoRepository(
-            persistentStorage: PersistentStorage(modelContext: modelContext)
-        )
-        self.categoryPersistentStorage = PersistentStorage(modelContext: modelContext)
+        self.repository = repository
+        self.categoryDataHandler = dataProvider.categoryDataHandler
         self.todoItem = todoItem
         self.text = todoItem.text
         self.importance = todoItem.importance

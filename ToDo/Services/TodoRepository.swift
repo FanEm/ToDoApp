@@ -22,7 +22,7 @@ final class TodoRepository: ObservableObject {
 
     // MARK: - Private properties
     private var todoNetworkService: TodoNetworkService
-    private let persistentStorage: PersistentStorage<TodoItem>
+    private let dataHandler: DataHandler<TodoItem>
     private var cancellables = Set<AnyCancellable>()
     private var revision: Int {
         StorageService.shared.revision
@@ -31,10 +31,10 @@ final class TodoRepository: ObservableObject {
     // MARK: - Initializers
     init(
         todoNetworkService: TodoNetworkService = TodoNetworkService.shared,
-        persistentStorage: PersistentStorage<TodoItem>
+        dataProvider: DataProvider = DataProvider.shared
     ) {
         self.todoNetworkService = todoNetworkService
-        self.persistentStorage = persistentStorage
+        self.dataHandler = dataProvider.todoItemDataHandler
         setupBindings()
     }
 
@@ -60,16 +60,25 @@ final class TodoRepository: ObservableObject {
         predicate: Predicate<TodoItem>? = nil,
         sortBy: [SortDescriptor<TodoItem>] = []
     ) throws -> [TodoItem] {
-        try persistentStorage.fetch(predicate: predicate, sortBy: sortBy)
+        try dataHandler.fetch(predicate: predicate, sortBy: sortBy)
     }
 
     func fetchCountLocally(predicate: Predicate<TodoItem>? = nil) throws -> Int {
-        try persistentStorage.fetchCount(predicate: predicate)
+        try dataHandler.fetchCount(predicate: predicate)
+    }
+
+    func todoItemExists(id: String) -> Bool {
+        do {
+            return try dataHandler.fetchCount(predicate: DataHandler.predicate(id: id)) == 0
+        } catch {
+            Logger.error("\(error.localizedDescription)")
+            return false
+        }
     }
 
     func addTodoItem(_ todoItem: TodoItem) async throws {
         try await executeBlockAndSyncOnError { [weak self] in
-            self?.persistentStorage.insert(todoItem)
+            self?.dataHandler.insert(todoItem)
             try await self?.todoNetworkService.addTodoItem(todoItem)
         }
     }
@@ -93,14 +102,14 @@ final class TodoRepository: ObservableObject {
     func editTodoItem(_ todoItem: TodoItem) async throws {
         try await executeBlockAndSyncOnError { [weak self] in
             try await self?.todoNetworkService.editTodoItem(todoItem)
-            self?.persistentStorage.update(persistentModelID: todoItem.persistentModelID, newItem: todoItem)
+            self?.dataHandler.update(persistentModelID: todoItem.persistentModelID, newItem: todoItem)
         }
     }
 
     func deleteTodoItem(_ todoItem: TodoItem) async throws {
         try await executeBlockAndSyncOnError { [weak self] in
             let id = todoItem.id
-            self?.persistentStorage.delete(todoItem)
+            self?.dataHandler.delete(todoItem)
             try await self?.todoNetworkService.deleteTodoItem(id: id)
         }
     }
@@ -118,24 +127,24 @@ final class TodoRepository: ObservableObject {
         for serverItem in serverItems {
             let localItem = localItems.first(where: { $0.id == serverItem.id })
             if let localItem {
-                persistentStorage.update(
+                dataHandler.update(
                     persistentModelID: localItem.persistentModelID,
                     newItem: serverItem
                 )
             } else {
-                persistentStorage.insert(serverItem)
+                dataHandler.insert(serverItem)
             }
         }
     }
 
     private func fetchTodoListFromPersistentStorage() throws -> [TodoItem] {
-        return try persistentStorage.fetch(predicate: nil)
+        return try dataHandler.fetch(predicate: nil)
     }
 
     private func deleteLocalItemsNotInServerList(localItems: [TodoItem], serverItems: [TodoItem]) {
         let serverItemIds = Set(serverItems.map { $0.id })
         for localItem in localItems where !serverItemIds.contains(localItem.id) {
-            persistentStorage.delete(localItem)
+            dataHandler.delete(localItem)
         }
     }
 

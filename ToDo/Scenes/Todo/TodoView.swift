@@ -14,11 +14,9 @@ struct TodoView: View {
     @StateObject var viewModel: TodoViewModel
     @FocusState private var isFocused
     @Environment(\.dismiss) var dismiss
-    private let modelContext: ModelContext
 
-    init(modelContext: ModelContext, todoItem: TodoItem) {
-        self.modelContext  = modelContext
-        let viewModel = TodoViewModel(modelContext: modelContext, todoItem: todoItem)
+    init(todoItem: TodoItem) {
+        let viewModel = TodoViewModel(todoItem: todoItem)
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -52,7 +50,7 @@ struct TodoView: View {
                 confirmation
             }
             .sheet(isPresented: $viewModel.isCategoryViewShown) {
-                CategoryView(modelContext: modelContext, category: $viewModel.category)
+                CategoryView(category: $viewModel.category)
                     .toolbar(.hidden, for: .navigationBar)
                     .ignoresSafeArea()
             }
@@ -236,24 +234,15 @@ extension TodoView {
 
 // MARK: - Preview
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: TodoItem.self, configurations: config)
-        let context = container.mainContext
-        context.insert(TodoItem(text: "Test"))
-        return TodoView(
-            modelContext: context,
-            todoItem: TodoItem(
-                text: "Text",
-                importance: .important,
-                deadline: .now,
-                isDone: false,
-                createdAt: .now,
-                color: nil,
-                category: nil
-            )
+    TodoView(
+        todoItem: TodoItem(
+            text: "Text",
+            importance: .important,
+            deadline: .now,
+            isDone: false,
+            createdAt: .now,
+            color: nil,
+            category: nil
         )
-    } catch {
-        fatalError()
-    }
+    )
 }
